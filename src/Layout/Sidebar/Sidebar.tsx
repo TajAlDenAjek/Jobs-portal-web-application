@@ -14,6 +14,7 @@ const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].
 const Sidebar = () => {
     return (
         <Sider
+            
             breakpoint="lg"
             collapsedWidth="0"
             onBreakpoint={(broken) => {
@@ -23,7 +24,7 @@ const Sidebar = () => {
                 console.log(collapsed, type);
             }}
         >
-            <div className="demo-logo-vertical" />
+            {/* <div className="demo-logo-vertical" /> */}
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
         </Sider>
     )

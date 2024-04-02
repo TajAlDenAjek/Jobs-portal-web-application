@@ -7,7 +7,7 @@ const LayoutContainer = () => {
 
     return (
         <>
-            <Layout>
+            <Layout style={{minHeight:'100vh',maxWidth:'100vw',maxHeight:'100vh'}}>
                 <Sidebar />
                 <Layout>
                     <Header />

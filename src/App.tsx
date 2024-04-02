@@ -1,8 +1,10 @@
-import React from 'react'
+import LayoutContainer from "./Layout/Layout"
 
 const App = () => {
   return (
-    <div>App</div>
+    <>
+      <LayoutContainer/>
+    </>
   )
 }
 
