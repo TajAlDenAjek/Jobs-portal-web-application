@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ConfigProvider,theme} from "antd";
 const App = () => {
   const { defaultAlgorithm, darkAlgorithm } = theme;
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
     <>

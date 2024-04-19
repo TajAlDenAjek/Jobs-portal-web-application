@@ -1,6 +1,6 @@
 import React from 'react'
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd'
+import { Layout, Menu ,theme} from 'antd'
 const { Sider } = Layout
 
 // our pages here 
@@ -12,6 +12,9 @@ const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].
     }),
 );
 const Sidebar = () => {
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
     return (
         <Sider
             
