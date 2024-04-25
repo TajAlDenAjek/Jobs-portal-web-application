@@ -1,4 +1,5 @@
 import { Layout ,theme} from 'antd'
+import { Outlet } from 'react-router-dom';
 const Content = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -13,7 +14,7 @@ const Content = () => {
                     borderRadius: borderRadiusLG,
                 }}
             >
-                Here put the navigation result 
+                <Outlet/>
             </div>
         </Layout.Content>
     )
