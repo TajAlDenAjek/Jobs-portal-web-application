@@ -1,0 +1,18 @@
+.login-page{
+    background-color:cornflowerblue;
+    font-weight: 600;
+}
+.login-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    width: 300px;
+    z-index: 100;
+    box-shadow: 3px black ;
+    gap: 3000px;
+}
+.login-title{
+    align-self: flex-start;
+    justify-self: flex-start;
+}
