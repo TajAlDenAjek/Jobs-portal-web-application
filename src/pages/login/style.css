@@ -1,5 +1,5 @@
 .login-page{
-    background-color:cornflowerblue;
+    background-color:#001529;
     font-weight: 600;
 }
 .login-card{
@@ -10,7 +10,6 @@
     width: 300px;
     z-index: 100;
     box-shadow: 3px black ;
-    gap: 3000px;
 }
 .login-title{
     align-self: flex-start;
