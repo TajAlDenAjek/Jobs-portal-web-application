@@ -2,6 +2,20 @@
     background-color:#001529;
     font-weight: 600;
 }
+.register-page .ant-tabs-content-holder{
+    max-height: 400px;
+    overflow-y: auto;
+}
+:-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
 .register-card{
     display: flex;
     justify-content: center;

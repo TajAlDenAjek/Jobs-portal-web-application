@@ -45,7 +45,7 @@ const Login = () => {
             <Form.Item<LoginFieldType> name="remember" valuePropName='checked' wrapperCol={{ offset: 0, span: 16 }}>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-            <Form.Item<LoginFieldType> valuePropName='checked' wrapperCol={{ offset: 8, span: 16 }}>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type='primary' htmlType='submit'>Sign in</Button>
             </Form.Item>
             <h3 className='hover-text-navigator' onClick={()=>{navigate('/register')}}>Don't have an account Sign up now ! </h3>
