@@ -1,19 +1,17 @@
-.login-page {
-    background-color: #001529;
+.register-page{
+    background-color:#001529;
     font-weight: 600;
 }
-
-.login-card {
+.register-card{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 400px;
-    width: 300px;
+    height: auto;
+    width: 400px;
     z-index: 100;
-    box-shadow: 3px black;
+    box-shadow: 3px black ;
 }
-
-.login-title {
+.register-title{
     align-self: flex-start;
     justify-self: flex-start;
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { FormProps } from 'antd'
 import { Flex, Card, Form, Input, Button, Checkbox } from 'antd'
 import './style.css'
-
+import { useNavigate } from 'react-router-dom'
 type LoginFieldType = {
   email?: string,
   password?: string,
@@ -11,7 +11,7 @@ type LoginFieldType = {
 
 
 const Login = () => {
-  
+  const navigate=useNavigate()
   const onFinish: FormProps<LoginFieldType>['onFinish'] = (values) => {
     console.log('values', values)
   }
@@ -48,6 +48,7 @@ const Login = () => {
             <Form.Item<LoginFieldType> valuePropName='checked' wrapperCol={{ offset: 8, span: 16 }}>
               <Button type='primary' htmlType='submit'>Sign in</Button>
             </Form.Item>
+            <h3 className='hover-text-navigator' onClick={()=>{navigate('/register')}}>Don't have an account Sign up now ! </h3>
           </Form>
         </Card>
       </Flex>
