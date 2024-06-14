@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials, logOut } from '../../features/auth/authSlice'
-let SERVER_SIDE = import.meta.env.VITE_REACT_API_KEY + '/api'
+let SERVER_SIDE = import.meta.env.VITE_REACT_API_KEY 
 
 
 type RefreshResponse = {
