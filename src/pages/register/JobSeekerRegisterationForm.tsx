@@ -2,6 +2,8 @@ import React from 'react'
 import type { FormProps, TabsProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Checkbox } from 'antd'
+import { useJobSeekerRegisterMutation } from '../../features/auth/authApiSlice'
+
 type JobSeekerRegisterFieldType = {
     firstName?:string
     lastName?:string
@@ -9,9 +11,13 @@ type JobSeekerRegisterFieldType = {
     password?: string,
 }
 const JobSeekerRegisterationForm = () => {
+    const [register,{isLoading}] =useJobSeekerRegisterMutation()
     const navigate = useNavigate()
-    const onFinish: FormProps<JobSeekerRegisterFieldType>['onFinish'] = (values) => {
-        console.log('values', values)
+
+    const onFinish: FormProps<JobSeekerRegisterFieldType>['onFinish'] =async (values) => {
+        
+        const userData = await register(values).unwrap()
+        console.log(userData)
     }
     const onFinishFailed: FormProps<JobSeekerRegisterFieldType>['onFinishFailed'] = (error) => {
         console.log('error', error)
@@ -42,7 +48,8 @@ const JobSeekerRegisterationForm = () => {
                 <Input type='email' />
             </Form.Item>
             <Form.Item<JobSeekerRegisterFieldType> name="password" label="Password"
-                rules={[{ required: true, message: 'Please Enter your password' }]}
+    
+                rules={[{ required: true, message: 'Password should be 8-20 chars ' ,min:8,max:20}]}
             >
                 <Input.Password />
             </Form.Item>
