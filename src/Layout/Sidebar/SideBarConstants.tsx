@@ -49,6 +49,8 @@ export const jobSeekerPages: SideBarPage[] = [
         url:'/articles'
     },
 ]
+
+// to do change icons + add it to routes and go for adming pages
 export const companyPages: SideBarPage[] = [
     {
         key: '1',
