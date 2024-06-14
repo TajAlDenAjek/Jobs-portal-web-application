@@ -52,9 +52,32 @@ export const jobSeekerPages: SideBarPage[] = [
 export const companyPages: SideBarPage[] = [
     {
         key: '1',
-        icon: <></>,
-        // icon: React.createElement(icon),
-        label: `first company route`,
-        url:'/companyFirst'
-    }
+        icon: React.createElement(PicCenterOutlined),
+        label: `Posts`,
+        url:'/posts'
+    },
+    {
+        key: '2',
+        icon: React.createElement(UserOutlined),
+        label: `Company profile`,
+        url:'/company-profile'
+    },
+    {
+        key: '3',
+        icon: React.createElement(TeamOutlined),
+        label: `Find Candidates`,
+        url:'/candidates'
+    },
+    {
+        key: '4',
+        icon: <DollarOutlined/>,
+        label: `Jobs`,
+        url:'/manage-jobs'
+    },
+    {
+        key: '5',
+        icon: <FileTextOutlined />,
+        label: `Articles`,
+        url:'/manage-articles'
+    },
 ]
