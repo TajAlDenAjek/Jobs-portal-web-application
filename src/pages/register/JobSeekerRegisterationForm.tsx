@@ -2,7 +2,6 @@ import React from 'react'
 import type { FormProps, TabsProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Checkbox } from 'antd'
-import './style.css'
 type JobSeekerRegisterFieldType = {
     firstName?:string
     lastName?:string
@@ -28,12 +27,7 @@ const JobSeekerRegisterationForm = () => {
 
         >
             <Form.Item<JobSeekerRegisterFieldType> name="firstName" label="First Name"
-                rules={[{ required: true, message: 'Please Enter your first name' }]}
-            >
-                <Input type='text' />
-            </Form.Item>
-            <Form.Item<JobSeekerRegisterFieldType> name="firstName" label="First Name"
-                rules={[{ required: true, message: 'Please Enter your first name' }]}
+                rules={[{ required: true, message: 'Please Enter your First name' }]}
             >
                 <Input type='text' />
             </Form.Item>

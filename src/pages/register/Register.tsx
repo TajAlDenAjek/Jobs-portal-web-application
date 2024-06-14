@@ -1,8 +1,9 @@
 import type { TabsProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Flex, Tabs, Card } from 'antd'
-import './style.css'
+import './style.scss'
 import JobSeekerRegisterationForm from './JobSeekerRegisterationForm'
+import CompanyRegisterationForm from './CompanyRegisterationForm'
 
 const items: TabsProps['items'] = [
     {
@@ -13,7 +14,7 @@ const items: TabsProps['items'] = [
     {
         key: '2',
         label: 'Company',
-        children: 'Content of Tab Pane 2',
+        children:<CompanyRegisterationForm/>,
     },
 ];
 
