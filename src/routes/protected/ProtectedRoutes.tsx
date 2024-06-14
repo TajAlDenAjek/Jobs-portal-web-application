@@ -9,10 +9,27 @@ export const adminRoutes:RouteObject[] = [
     },
 ];
 
+
 export const jobSeekerRoutes:RouteObject[] = [
     {
-        path: '/secretJobSeeker',
-        element: <div>hi I am job seeker</div>
+        path: '/posts',
+        element: <div>Posts</div>
+    },
+    {
+        path: '/articles',
+        element: <div>Articles</div>
+    },
+    {
+        path: '/companies',
+        element: <div>Companies</div>
+    },
+    {
+        path: '/job-seeker-profile',
+        element: <div>Profile</div>
+    },
+    {
+        path: '/jobs',
+        element: <div>Jobs</div>
     },
 ];
 
