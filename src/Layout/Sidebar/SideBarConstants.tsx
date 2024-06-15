@@ -12,19 +12,19 @@ export const adminPages: SideBarPage[] = [
     {
         key: '1',
         icon: React.createElement(UserOutlined),
-        label: `Job Seekers Accounts`,
+        label: `Job Seekers`,
         url: '/manage-job-seekers-accounts'
     },
     {
         key: '2',
         icon: React.createElement(TeamOutlined),
-        label: `Companies Accounts`,
+        label: `Companies`,
         url: '/manage-company-accounts'
     },
     {
         key: '3',
         icon: <FileTextOutlined />,
-        label: `Companies Articles`,
+        label: `Companies`,
         url: '/manage-companies-articles-accounts'
     },
 ]
