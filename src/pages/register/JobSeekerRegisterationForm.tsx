@@ -3,34 +3,40 @@ import type { FormProps, TabsProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { useJobSeekerRegisterMutation } from '../../features/auth/authApiSlice'
-
+import { message } from 'antd'
 type JobSeekerRegisterFieldType = {
-    firstName?:string
-    lastName?:string
+    firstName?: string
+    lastName?: string
     email?: string,
     password?: string,
 }
 const JobSeekerRegisterationForm = () => {
-    const [register,{isLoading}] =useJobSeekerRegisterMutation()
+    const [register, { isLoading }] = useJobSeekerRegisterMutation()
     const navigate = useNavigate()
+    const [form] = Form.useForm();
 
-    const onFinish: FormProps<JobSeekerRegisterFieldType>['onFinish'] =async (values) => {
-        
-        const userData = await register(values).unwrap()
-        console.log(userData)
+    const onFinish: FormProps<JobSeekerRegisterFieldType>['onFinish'] = async (values) => {
+        try {
+            const userData = await register({ ...values, permission: "jobSeeker" }).unwrap()
+            form.resetFields()
+            message.success('Registration Successfull')
+            navigate('/login')
+        } catch (error: any) {
+            form.setFields([{
+                name: 'email',
+                errors: [error?.data?.error?.email]
+            }])
+        }
     }
-    const onFinishFailed: FormProps<JobSeekerRegisterFieldType>['onFinishFailed'] = (error) => {
-        console.log('error', error)
-    }
+
     return (
         <Form
+            form={form}
             labelCol={{ span: 24 }}
             wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
-            onFinishFailed={onFinishFailed}
             autoComplete='off'
             onFinish={onFinish}
-
         >
             <Form.Item<JobSeekerRegisterFieldType> name="firstName" label="First Name"
                 rules={[{ required: true, message: 'Please Enter your First name' }]}
@@ -45,16 +51,16 @@ const JobSeekerRegisterationForm = () => {
             <Form.Item<JobSeekerRegisterFieldType> name="email" label="Email"
                 rules={[{ required: true, message: 'Please Enter your email' }]}
             >
-                <Input type='email' />
+                <Input type='email'/>
             </Form.Item>
             <Form.Item<JobSeekerRegisterFieldType> name="password" label="Password"
-    
-                rules={[{ required: true, message: 'Password should be 8-20 chars ' ,min:8,max:20}]}
+
+                rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
             >
                 <Input.Password />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type='primary' htmlType='submit'>Sign up</Button>
+                <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Signing up..." : "Sign up"}</Button>
             </Form.Item>
         </Form>
     )

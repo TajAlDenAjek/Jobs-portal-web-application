@@ -14,8 +14,8 @@ type RefreshResponse = {
 // configure for cookies and tokens
 const baseQuery = fetchBaseQuery({
     baseUrl: SERVER_SIDE,
-    credentials: 'include',
-    
+    // credentials: 'include',
+    credentials: "same-origin", 
     prepareHeaders: (headers, { getState}: any) => {
         const token = getState().auth.token
         if (token) {
