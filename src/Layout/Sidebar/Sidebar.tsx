@@ -6,6 +6,7 @@ import { Permissions } from '../../features/auth/authSlice';
 import { selectCurrentPermission } from '../../features/auth/authSlice';
 import { adminPages, companyPages, jobSeekerPages } from './SideBarConstants';
 import { useNavigate } from 'react-router';
+import './style.scss'
 const Sidebar = () => {
     const navigate = useNavigate()
     const permission: Permissions | null = useSelector(selectCurrentPermission)
@@ -22,8 +23,9 @@ const Sidebar = () => {
             }}
             onCollapse={(collapsed, type) => {
             }}
+            className='side-bar-container'
         >
-            <div className="demo-logo-vertical" />
+            <div className="demo-logo-vertical" >Career App</div>
             <Menu
                 // selectedKeys={}
                 theme="dark"
