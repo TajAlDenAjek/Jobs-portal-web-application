@@ -31,21 +31,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     let result = await baseQuery(args, api, extraOptions)
     // your token maybe expired 
     if (result?.error?.status === 401) {
-        // sending refresh request
-        const refreshResult: RefreshResponse = await baseQuery('/auth/refresh', api, extraOptions)
-        // is my token still alive ? 
-        if (refreshResult?.data) {
-            // if yes then save it 
-            const { id, username } = refreshResult.data.user
-            //store new token
-            api.dispatch(setCredentials({ ...refreshResult.data, id, username }))
-            // retry the original request with the new alive token
-            result = await baseQuery(args, api, extraOptions)
-        }
-        else {
-            // if no then let me out I don't belong to this website anymore
-            api.dispatch(logOut())
-        }
+        api.dispatch(logOut())
     }
     return result
 }

@@ -12,7 +12,7 @@ const Header = () => {
     const navigate=useNavigate()
     const permission: Permissions | null = useSelector(selectCurrentPermission)
     const username = useSelector(selectCurrentUserName)
-    const title: string = permission === 'admin' ? 'Admin Panel' : permission === "company" ? `${'company name'} Company` : `${'username'}`
+    const title: string = permission === 'admin' ? 'Admin Panel' : permission === "company" ? `${'company name'} Company` : `${username}`
     const {
         token: { colorBgContainer },
     } = theme.useToken();

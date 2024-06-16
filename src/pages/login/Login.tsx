@@ -23,8 +23,7 @@ const Login = () => {
   const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
     try {
       const userData = await login({ ...values, permission: "jobSeeker" }).unwrap()
-      // dispatch(setCredentials(userData))
-      console.log(userData)
+      dispatch(setCredentials(userData))
       message.success('Login Successful')
       // form.resetFields()
       // navigate('/')
