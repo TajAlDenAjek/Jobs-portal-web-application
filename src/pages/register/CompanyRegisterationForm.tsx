@@ -17,7 +17,7 @@ const CompanyRegisterationForm = () => {
         try {
             const companyData = await register({ ...values, permission: "company" }).unwrap()
             form.resetFields()
-            message.success('Registration Successfull')
+            message.success('Registration Successful')
             navigate('/login')
         } catch (error: any) {
             form.setFields([{

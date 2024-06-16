@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import type { FormProps } from 'antd'
-import { Flex, Card, Form, Input, Button, Checkbox } from 'antd'
+import { message, Flex, Card, Form, Input, Button, Checkbox } from 'antd'
+import { useLoginMutation } from '../../features/auth/authApiSlice'
+import { useSelector, useDispatch } from 'react-redux';
+import { setCredentials } from '../../features/auth/authSlice';
+
 import './style.css'
 import { useNavigate } from 'react-router-dom'
 type LoginFieldType = {
@@ -11,26 +15,35 @@ type LoginFieldType = {
 
 
 const Login = () => {
-  const navigate=useNavigate()
-  const onFinish: FormProps<LoginFieldType>['onFinish'] = (values) => {
-    console.log('values', values)
-  }
-  const onFinishFailed: FormProps<LoginFieldType>['onFinishFailed'] = (error) => {
-    console.log('error', error)
+  const [login, { isLoading }] = useLoginMutation()
+  const navigate = useNavigate()
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
+    try {
+      const userData = await login({ ...values, permission: "jobSeeker" }).unwrap()
+      // dispatch(setCredentials(userData))
+      console.log(userData)
+      message.success('Login Successful')
+      // form.resetFields()
+      // navigate('/')
+    } catch (error: any) {
+      message.error('Wrong Credentials')
+    }
   }
   return (
     <div className='login-page'>
-      <Flex justify='center' align='center' style={{ height: '100vh' ,width:'100vw'}}>
+      <Flex justify='center' align='center' style={{ height: '100vh', width: '100vw' }}>
         <Card className='login-card' >
           <h1 className='login-title'>Login Page</h1>
           <Form
             labelCol={{ span: 24 }}
             wrapperCol={{ span: 24 }}
-            initialValues={{ remember: true }}
-            onFinishFailed={onFinishFailed}
+            // initialValues={{ remember: true }}
             autoComplete='off'
             onFinish={onFinish}
-            
+
           >
             <Form.Item<LoginFieldType> name="email" label="Email"
               rules={[{ required: true, message: 'Please Enter your email' }]}
@@ -42,13 +55,13 @@ const Login = () => {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item<LoginFieldType> name="remember" valuePropName='checked' wrapperCol={{ offset: 0, span: 16 }}>
+            {/* <Form.Item<LoginFieldType> name="remember" valuePropName='checked' wrapperCol={{ offset: 0, span: 16 }}>
               <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type='primary' htmlType='submit'>Sign in</Button>
+              <Button type='primary' htmlType='submit'disabled={isLoading}>{isLoading ? "Signing in..." : "Sign in"}</Button>
             </Form.Item>
-            <h3 className='hover-text-navigator' onClick={()=>{navigate('/register')}}>Don't have an account Sign up now ! </h3>
+            <h3 className='hover-text-navigator' onClick={() => { navigate('/register') }}>Don't have an account Sign up now ! </h3>
           </Form>
         </Card>
       </Flex>

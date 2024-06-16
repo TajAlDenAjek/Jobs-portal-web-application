@@ -19,7 +19,7 @@ const JobSeekerRegisterationForm = () => {
         try {
             const userData = await register({ ...values, permission: "jobSeeker" }).unwrap()
             form.resetFields()
-            message.success('Registration Successfull')
+            message.success('Registration Successful')
             navigate('/login')
         } catch (error: any) {
             form.setFields([{
