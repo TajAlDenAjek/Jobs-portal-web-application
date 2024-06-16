@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { message, Form, Input, Button } from 'antd'
 import { useCompanyRegisterMutation } from '../../features/auth/authApiSlice'
 type CompanyRegisterFieldType = {
-    companyName?: string
+    name?: string
     email?: string,
     password?: string,
 }
@@ -35,7 +35,7 @@ const CompanyRegisterationForm = () => {
             onFinish={onFinish}
             form={form}
         >
-            <Form.Item<CompanyRegisterFieldType> name="companyName" label="Company Name"
+            <Form.Item<CompanyRegisterFieldType> name="name" label="Company Name"
                 rules={[{ required: true, message: 'Please Enter your Company name' }]}
             >
                 <Input type='text' />
