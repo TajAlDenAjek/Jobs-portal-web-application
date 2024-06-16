@@ -15,7 +15,7 @@ type RefreshResponse = {
 const baseQuery = fetchBaseQuery({
     baseUrl: SERVER_SIDE,
     // credentials: 'include',
-    credentials: "same-origin", 
+    // credentials: "same-origin", 
     prepareHeaders: (headers, { getState}: any) => {
         const token = getState().auth.token
         if (token) {
