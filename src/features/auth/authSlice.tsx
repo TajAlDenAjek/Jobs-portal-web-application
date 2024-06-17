@@ -1,7 +1,7 @@
 import { RootState } from '../../app/store'
 import { createSlice } from '@reduxjs/toolkit'
 
-export type Permissions = "admin" | "jobSeeker" |  "company"
+export type Permissions = "admin" | "jobSeeker" | "company"
 
 // type of user state information
 export type User = {
@@ -15,7 +15,7 @@ let intiState: User = {
     id: null,
     username: null,
     permission: null,
-    token:null
+    token: null
 }
 // get localstoragestate
 if (localStorage.getItem('auth') !== null) {
@@ -27,11 +27,12 @@ const authSlice = createSlice({
     initialState: intiState,
     reducers: {
         setCredentials: (state, action) => {
-            const { id, username, token, permission } = action.payload
+            console.log(action.payload)
+            const { id, username, token, permission, companyName } = action.payload
             const user = { id, username, token, permission }
             localStorage.setItem('auth', JSON.stringify(user))
             state.id = id;
-            state.username = username;
+            state.username = username || companyName;
             state.permission = permission;
             state.token = token
         },

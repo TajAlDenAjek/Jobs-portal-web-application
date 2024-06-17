@@ -24,7 +24,7 @@ const JobSeekerRegisterationForm = () => {
         } catch (error: any) {
             form.setFields([{
                 name: 'email',
-                errors: [error?.data?.error?.email]
+                errors: ['email is already in use']
             }])
         }
     }

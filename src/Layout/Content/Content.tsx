@@ -13,7 +13,8 @@ const Content = () => {
                     background: colorBgContainer,
                     borderRadius: borderRadiusLG,
                     height: '100%',
-                    overflow:'auto'
+                    width:'100%',
+                    overflowY:'hidden'
                 }}
             >
                 <Outlet/>
