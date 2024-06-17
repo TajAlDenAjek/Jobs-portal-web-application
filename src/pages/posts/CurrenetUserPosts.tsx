@@ -1,9 +1,9 @@
 import React from 'react'
-
+import PostsList from './PostsList'
 const CurrenetUserPosts = () => {
   return (
-    <div>CurrenetUserPosts</div>
-  )
+    <PostsList/>
+    )
 }
 
 export default CurrenetUserPosts

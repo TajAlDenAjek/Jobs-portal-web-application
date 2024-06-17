@@ -4,9 +4,9 @@ const PostsList = () => {
   return (
     <>
     <div style={{
-      overflowY:'auto',
-      height:'100vh',
-      width:'80vw',
+      // overflowY:'auto',
+      // height:'100vh',
+      // width:'80vw',
     }}>
       
     <div>PostsLIst</div>
