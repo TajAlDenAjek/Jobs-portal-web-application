@@ -1,14 +1,14 @@
 import type { TabsProps } from 'antd'
 import { Tabs } from 'antd'
-import PostsList from './PostsList';
 import CurrenetUserPosts from './CurrenetUserPosts';
+import NewPosts from './NewPosts';
 import './style.scss'
 
 const items: TabsProps['items'] = [
   {
     key: '1',
     label: 'Posts',
-    children: <PostsList />,
+    children: <NewPosts/>,
   },
   {
     key: '2',

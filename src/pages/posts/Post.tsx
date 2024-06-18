@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Post = () => {
+interface PostProps {
+  post: any
+}
+
+const Post: React.FC<PostProps> = ({
+  post
+}) => {
   return (
     <div>Post</div>
   )

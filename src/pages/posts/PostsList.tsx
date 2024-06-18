@@ -1,127 +1,21 @@
 import React from 'react'
+import Post from './Post';
+interface PostList {
+  posts: any[];
+}
 
-const PostsList = () => {
+const PostsList: React.FC<PostList> = ({
+  posts
+}) => {
   return (
     <>
-    <div style={{
-      // overflowY:'auto',
-      // height:'100vh',
-      // width:'80vw',
-    }}>
-      
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div></div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    <div>PostsLIst</div>
-    </div>
+      <div>
+        {
+          posts.map((post: any) => {
+            return <Post key={post.id} post={post} />;
+          })
+        }
+      </div>
     </>
   )
 }
