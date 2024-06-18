@@ -21,18 +21,23 @@
         justify-content: center;
         align-items: center;
         gap: 20px;
+        .ant-card .ant-card-body{
+            padding: 0px !important;
+        }
         .post-card {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 400px;
             width: 330px;
             background-color: rgb(237, 241, 241) ;
-            // z-index: 100;
             border: 1px solid #ccc;
             border-radius: 5px;
-            // border: 1px solid #;
-            // box-shadow: 3px black;
+            padding: 0px;
+            overflow: hidden;
+            .post-text{
+                color: #333;
+                font-size: medium;
+                font-family: 'Times New Roman', Times, serif;
+                padding: 5px;
+            }
         }
         .post-card:hover{
             cursor: pointer;
