@@ -5,7 +5,7 @@ import { Modal, Button } from 'antd'
 interface JobSeekerProfileProps {
     isModal?: boolean
     id?: any,
-    profileData?: boolean
+    profileData?: boolean,
 }
 
 const JobSeekerProfile: React.FC<JobSeekerProfileProps> = ({
@@ -37,7 +37,10 @@ const JobSeekerProfile: React.FC<JobSeekerProfileProps> = ({
                     >
                         <JobSeekerProfileForm id={id} profileData={profileData} isDisabled={true} />
                     </Modal>
-                    : <JobSeekerProfileForm id={id} profileData={profileData} />
+                    : 
+                    <div className='job-seeker-profile-page'>
+                        <JobSeekerProfileForm id={id} profileData={profileData} />
+                    </div>
             }
         </>
     )
