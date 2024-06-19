@@ -2,6 +2,8 @@ import Home from "../../pages/home/Home";
 import type { RouteObject } from "react-router-dom";
 import PostsPage from "../../pages/posts/PostsPage";
 import JobSeekerProfile from "../../pages/jobSeekerProfile/JobSeekerProfile";
+import CompanyProfile from "../../pages/companyProfile/CompanyProfile";
+
 export const adminRoutes:RouteObject[] = [
     {
         path: '/manage-job-seekers-accounts',
@@ -57,7 +59,7 @@ export const companyRoutes:RouteObject[] = [
     },
     {
         path: '/company-profile',
-        element: <div>hi I am company profile</div>
+        element: <CompanyProfile/>
     },
     {
         path: '/candidates',
