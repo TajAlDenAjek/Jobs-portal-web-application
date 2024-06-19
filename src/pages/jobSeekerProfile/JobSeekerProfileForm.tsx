@@ -1,5 +1,7 @@
-import React from 'react'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import React,{useState} from 'react'
+import { MinusCircleOutlined, PlusOutlined ,LoadingOutlined} from '@ant-design/icons'
+import type { GetProp, UploadProps, } from 'antd';
+
 import PhoneInput from 'antd-phone-input';
 import 'antd-phone-input/styles';
 import {
@@ -20,6 +22,13 @@ const { Option } = Select;
 import type { FormProps } from 'antd'
 import './style.scss'
 
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+const getBase64 = (img: FileType, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
 interface jobSeekerProfileProps {
     isDisabled?: boolean,
     profileData?: any,
@@ -32,7 +41,7 @@ type jobSeekerProfileFieldType = {
     firstName?: string,
     lastName?: string,
     phoneNumber?: string,
-
+    phoneNumber_temp?: string,
     gender?: "male" | "female",
     birthDate?: string,
     country?: string,
@@ -68,6 +77,29 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
             message.error('Something went wrong')
         }
     }
+    const [loading, setLoading] = useState(false);
+    const [imageUrl, setImageUrl] = useState<string>();
+  
+    const handleChange: UploadProps['onChange'] = (info) => {
+      if (info.file.status === 'uploading') {
+        setLoading(true);
+        return;
+      }
+      if (info.file.status === 'done') {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj as FileType, (url) => {
+          setLoading(false);
+          setImageUrl(url);
+        });
+      }
+    };
+  
+    const uploadButton = (
+      <button style={{ border: 0, background: 'none' }} type="button">
+        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div style={{ marginTop: 8 }}>Upload</div>
+      </button>
+    );
     return (
         <div>
             <Form
@@ -79,6 +111,19 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 onFinish={onFinish}
 
             >
+                <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
+                    <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                        onChange={handleChange}
+                    >
+                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                    </Upload>
+                </Form.Item>
+                <Upload />
                 <Form.Item<jobSeekerProfileFieldType> name="firstName" label="First Name"
                     rules={[{ required: true, message: 'Please Enter your First name' }]}
                 >
@@ -136,21 +181,21 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                                 >
                                     <Form.Item
                                         name={[field.name, 'title']}
-                                        fieldKey={[field.fieldKey, 'title']}
+                                        // fieldKey={[field.fieldKey, 'title']}
                                         rules={[{ required: true, message: 'Please input the title!' }]}
                                     >
                                         <Input placeholder="Title" />
                                     </Form.Item>
                                     <Form.Item
                                         name={[field.name, 'startDate']}
-                                        fieldKey={[field.fieldKey, 'startDate']}
+                                        // fieldKey={[field.fieldKey, 'startDate']}
                                         rules={[{ required: true, message: 'Please select the start date!' }]}
                                     >
                                         <DatePicker placeholder="Start Date" />
                                     </Form.Item>
                                     <Form.Item
                                         name={[field.name, 'endDate']}
-                                        fieldKey={[field.fieldKey, 'endDate']}
+                                        // fieldKey={[field.fieldKey, 'endDate']}
                                         rules={[{ required: true, message: 'Please select the end date!' }]}
                                     >
                                         <DatePicker placeholder="End Date" />
@@ -185,31 +230,31 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                                 >
                                     <Form.Item
                                         name={[field.name, 'titleWork']}
-                                        fieldKey={[field.fieldKey, 'titleWork']}
+                                        // fieldKey={[field.fieldKey, 'titleWork']}
                                         rules={[{ required: true, message: 'Please input the job title!' }]}
                                     >
                                         <Input placeholder="Job Title" />
                                     </Form.Item>
                                     <Form.Item
                                         name={[field.name, 'startDateWork']}
-                                        fieldKey={[field.fieldKey, 'startDateWork']}
+                                        // fieldKey={[field.fieldKey, 'startDateWork']}
                                         rules={[{ required: true, message: 'Please select the start date!' }]}
                                     >
                                         <DatePicker placeholder="Start Date" />
                                     </Form.Item>
                                     <Form.Item
                                         name={[field.name, 'endDateWork']}
-                                        fieldKey={[field.fieldKey, 'endDateWork']}
+                                        // fieldKey={[field.fieldKey, 'endDateWork']}
                                         rules={[{ required: true, message: 'Please select the end date!' }]}
                                     >
                                         <DatePicker placeholder="End Date" />
                                     </Form.Item>
                                     <Form.Item
                                         name={[field.name, 'isCurrentlyEmployed']}
-                                        fieldKey={[field.fieldKey, 'isCurrentlyEmployed']}
+                                        // fieldKey={[field.fieldKey, 'isCurrentlyEmployed']}
                                         valuePropName="checked"
                                     >
-                                        <Checkbox>{field.name === 'isCurrentlyEmployed' ? 'Is Currently Employed?' : ''}</Checkbox>
+                                        <Checkbox>Is Currently Employed</Checkbox>
                                     </Form.Item>
                                     {fields.length > 1 ? (
                                         <MinusCircleOutlined
@@ -241,7 +286,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                                 >
                                     <Form.Item
                                         name={[field.name, 'skill']}
-                                        fieldKey={[field.fieldKey, 'skill']}
+                                        // fieldKey={[field.fieldKey, 'skill']}
                                         rules={[{ required: true, message: 'Please input the skill!' }]}
                                     >
                                         <Input placeholder="Skill" />
