@@ -1,4 +1,7 @@
 import React from 'react'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import PhoneInput from 'antd-phone-input';
+import 'antd-phone-input/styles';
 import {
     Form, message, Input, Button,
     Cascader,
@@ -13,7 +16,7 @@ import {
     TreeSelect,
     Upload,
 } from 'antd'
-
+const { Option } = Select;
 import type { FormProps } from 'antd'
 import './style.scss'
 
@@ -47,9 +50,17 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     id,
 }) => {
     const [form] = Form.useForm();
-
+    const prefixSelector = (
+        <Form.Item name="prefix" noStyle>
+            <Select style={{ width: 70 }}>
+                <Option value="86">+86</Option>
+                <Option value="87">+87</Option>
+            </Select>
+        </Form.Item>
+    );
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
+            console.log(values)
             message.success('Update Successful')
             // form.resetFields()
             // navigate('/')
@@ -88,15 +99,173 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 >
                     <Input.Password />
                 </Form.Item>
-                <Form.Item label="Gender" name={"gender"}>
+                <Form.Item<jobSeekerProfileFieldType>
+                    name="descriptionOrSummary"
+                    label="Summary"
+                    rules={[{ required: true, message: 'Please input your Summary!' }]}
+                >
+                    <Input.TextArea rows={4} />
+                </Form.Item>
+                <Form.Item<jobSeekerProfileFieldType> label="Gender" name={"gender"}>
                     <Radio.Group>
                         <Radio value="male"> Male </Radio>
                         <Radio value="female"> Female </Radio>
                     </Radio.Group>
                 </Form.Item>
+
+                <Form.Item<jobSeekerProfileFieldType>
+                    name="phoneNumber_temp"
+                    label="Phone Number"
+                >
+                    <PhoneInput
+                        country={"sy"}
+                        disableDropdown={false}
+                        enableSearch={true}
+                        excludeCountries={['il']}
+                    />
+                </Form.Item>
+                {/* List of Educations */}
+                <Form.List name="educations">
+                    {(fields, { add, remove }) => (
+                        <>
+                            {fields.map((field) => (
+                                <Form.Item
+                                    {...field}
+                                    key={field.key}
+                                    label={`Education ${field.key + 1}`}
+                                >
+                                    <Form.Item
+                                        name={[field.name, 'title']}
+                                        fieldKey={[field.fieldKey, 'title']}
+                                        rules={[{ required: true, message: 'Please input the title!' }]}
+                                    >
+                                        <Input placeholder="Title" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name={[field.name, 'startDate']}
+                                        fieldKey={[field.fieldKey, 'startDate']}
+                                        rules={[{ required: true, message: 'Please select the start date!' }]}
+                                    >
+                                        <DatePicker placeholder="Start Date" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name={[field.name, 'endDate']}
+                                        fieldKey={[field.fieldKey, 'endDate']}
+                                        rules={[{ required: true, message: 'Please select the end date!' }]}
+                                    >
+                                        <DatePicker placeholder="End Date" />
+                                    </Form.Item>
+                                    {fields.length > 1 ? (
+                                        <MinusCircleOutlined
+                                            onClick={() => {
+                                                remove(field.name);
+                                            }}
+                                        />
+                                    ) : null}
+                                </Form.Item>
+                            ))}
+                            <Form.Item>
+                                <Button type="dashed" onClick={() => add()} block>
+                                    <PlusOutlined /> Add Education
+                                </Button>
+                            </Form.Item>
+                        </>
+                    )}
+                </Form.List>
+
+                {/* List of Work Experiences */}
+                <Form.List name="workExperiences">
+                    {(fields, { add, remove }) => (
+                        <>
+                            {fields.map((field) => (
+                                <Form.Item
+                                    {...field}
+                                    key={field.key}
+                                    label={`Work Experience ${field.key + 1}`}
+                                >
+                                    <Form.Item
+                                        name={[field.name, 'titleWork']}
+                                        fieldKey={[field.fieldKey, 'titleWork']}
+                                        rules={[{ required: true, message: 'Please input the job title!' }]}
+                                    >
+                                        <Input placeholder="Job Title" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name={[field.name, 'startDateWork']}
+                                        fieldKey={[field.fieldKey, 'startDateWork']}
+                                        rules={[{ required: true, message: 'Please select the start date!' }]}
+                                    >
+                                        <DatePicker placeholder="Start Date" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name={[field.name, 'endDateWork']}
+                                        fieldKey={[field.fieldKey, 'endDateWork']}
+                                        rules={[{ required: true, message: 'Please select the end date!' }]}
+                                    >
+                                        <DatePicker placeholder="End Date" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name={[field.name, 'isCurrentlyEmployed']}
+                                        fieldKey={[field.fieldKey, 'isCurrentlyEmployed']}
+                                        valuePropName="checked"
+                                    >
+                                        <Checkbox>{field.name === 'isCurrentlyEmployed' ? 'Is Currently Employed?' : ''}</Checkbox>
+                                    </Form.Item>
+                                    {fields.length > 1 ? (
+                                        <MinusCircleOutlined
+                                            onClick={() => {
+                                                remove(field.name);
+                                            }}
+                                        />
+                                    ) : null}
+                                </Form.Item>
+                            ))}
+                            <Form.Item>
+                                <Button type="dashed" onClick={() => add()} block>
+                                    <PlusOutlined /> Add Work Experience
+                                </Button>
+                            </Form.Item>
+                        </>
+                    )}
+                </Form.List>
+
+                {/* List of Skills */}
+                <Form.List name="skills">
+                    {(fields, { add, remove }) => (
+                        <>
+                            {fields.map((field) => (
+                                <Form.Item
+                                    {...field}
+                                    key={field.key}
+                                    label={`Skill ${field.key + 1}`}
+                                >
+                                    <Form.Item
+                                        name={[field.name, 'skill']}
+                                        fieldKey={[field.fieldKey, 'skill']}
+                                        rules={[{ required: true, message: 'Please input the skill!' }]}
+                                    >
+                                        <Input placeholder="Skill" />
+                                    </Form.Item>
+                                    {fields.length > 1 ? (
+                                        <MinusCircleOutlined
+                                            onClick={() => {
+                                                remove(field.name);
+                                            }}
+                                        />
+                                    ) : null}
+                                </Form.Item>
+                            ))}
+                            <Form.Item>
+                                <Button type="dashed" onClick={() => add()} block>
+                                    <PlusOutlined /> Add Skill
+                                </Button>
+                            </Form.Item>
+                        </>
+                    )}
+                </Form.List>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                     <Button>{"Generate CV"}</Button>
-                    <Button type='primary' htmlType='submit' disabled={true}>{false ? "Updating..." : "Update"}</Button>
+                    <Button type='primary' htmlType='submit' disabled={false}>{false ? "Updating..." : "Update"}</Button>
                     <Button danger type="primary">Delete Profile</Button>
                 </div>
             </Form>
