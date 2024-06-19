@@ -1,7 +1,7 @@
-import React,{useState} from 'react'
-import { MinusCircleOutlined, PlusOutlined ,LoadingOutlined} from '@ant-design/icons'
+import React, { useState } from 'react'
+import { MinusCircleOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons'
 import type { GetProp, UploadProps, } from 'antd';
-
+import ResumePDF from './ResumePDF';
 import PhoneInput from 'antd-phone-input';
 import 'antd-phone-input/styles';
 import {
@@ -21,20 +21,57 @@ import {
 const { Option } = Select;
 import type { FormProps } from 'antd'
 import './style.scss'
+import { pdf } from '@react-pdf/renderer';
+
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const getBase64 = (img: FileType, callback: (url: string) => void) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result as string));
-  reader.readAsDataURL(img);
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result as string));
+    reader.readAsDataURL(img);
 };
 interface jobSeekerProfileProps {
     isDisabled?: boolean,
     profileData?: any,
     id?: any,
 }
-
+const dummyData = {
+    email: 'example@example.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    phoneNumber: '123-456-7890',
+    gender: 'Male',
+    birthDate: '01/01/1990',
+    country: 'United States',
+    personalImage: 'https://via.placeholder.com/150',
+    descriptionOrSummary: 'Experienced software developer with a passion for creating innovative solutions.',
+    education: [
+      {
+        title: 'Bachelor of Science in Computer Science',
+        startDate: '09/2010',
+        endDate: '06/2014',
+      },
+      {
+        title: 'Master of Science in Software Engineering',
+        startDate: '09/2014',
+        endDate: '06/2016',
+      },
+    ],
+    workExperience: [
+      {
+        title: 'Software Engineer',
+        startDate: '07/2016',
+        endDate: 'Present',
+      },
+      {
+        title: 'Web Developer',
+        startDate: '01/2014',
+        endDate: '06/2016',
+      },
+    ],
+    skills: ['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'SQL'],
+  };
 type jobSeekerProfileFieldType = {
     email?: string,
     password?: string,
@@ -58,15 +95,29 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     profileData,
     id,
 }) => {
+
     const [form] = Form.useForm();
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select style={{ width: 70 }}>
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-            </Select>
-        </Form.Item>
-    );
+    const [resumeData, setResumeData] = useState<any>({
+        // Initialize your resume data here
+    });
+    
+    const handleGeneratePDF = async () => {
+        console.log(form.getFieldsValue())
+        setResumeData(dummyData)
+        console.log(dummyData)
+        try {
+            const blob = await pdf(<ResumePDF props={resumeData} />).toBlob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'resume.pdf';
+            link.click();
+            URL.revokeObjectURL(url); // Clean up memory
+        } catch (error) {
+            console.error("Failed to generate PDF:", error);
+        }
+    };
+
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
             console.log(values)
@@ -79,30 +130,31 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     }
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>();
-  
+
     const handleChange: UploadProps['onChange'] = (info) => {
-      if (info.file.status === 'uploading') {
-        setLoading(true);
-        return;
-      }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj as FileType, (url) => {
-          setLoading(false);
-          setImageUrl(url);
-        });
-      }
+        if (info.file.status === 'uploading') {
+            setLoading(true);
+            return;
+        }
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            getBase64(info.file.originFileObj as FileType, (url) => {
+                setLoading(false);
+                setImageUrl(url);
+            });
+        }
     };
-  
+
     const uploadButton = (
-      <button style={{ border: 0, background: 'none' }} type="button">
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </button>
+        <button style={{ border: 0, background: 'none' }} type="button">
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </button>
     );
     return (
         <div>
             <Form
+                form={form}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
                 // initialValues={{ remember: true }}
@@ -309,7 +361,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     )}
                 </Form.List>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                    <Button>{"Generate CV"}</Button>
+                    <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
                     <Button type='primary' htmlType='submit' disabled={false}>{false ? "Updating..." : "Update"}</Button>
                     <Button danger type="primary">Delete Profile</Button>
                 </div>
