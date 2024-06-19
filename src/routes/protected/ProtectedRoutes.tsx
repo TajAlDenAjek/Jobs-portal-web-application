@@ -4,7 +4,7 @@ import PostsPage from "../../pages/posts/PostsPage";
 import JobSeekerProfile from "../../pages/jobSeekerProfile/JobSeekerProfile";
 import CompanyProfile from "../../pages/companyProfile/CompanyProfile";
 import FindCandidates from "../../pages/findCandidates/FindCandidates";
-
+import FindCompanies from "../../pages/findCompanies/FindCompanies";
 
 export const adminRoutes:RouteObject[] = [
     {
@@ -37,7 +37,7 @@ export const jobSeekerRoutes:RouteObject[] = [
     },
     {
         path: '/companies',
-        element: <div>Companies</div>
+        element: <FindCompanies/>
     },
     {
         path: '/job-seeker-profile',

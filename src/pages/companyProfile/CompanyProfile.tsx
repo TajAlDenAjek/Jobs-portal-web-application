@@ -14,7 +14,6 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({
     id,
     profileData
 }) => {
-    const [isModalOpen, setIsModalOpen] = React.useState(true)
     // const {
     //     data,
     //     isLoading,
@@ -32,25 +31,8 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({
         <>
             {
                 isModal
-                    ? <Modal
-                        width={600}
-                        title={"Company Profile"}
-                        open={isModalOpen}
-                        destroyOnClose
-                        closable={true}
-                        onCancel={() => setIsModalOpen(false)}
-                        onOk={() => setIsModalOpen(false)}
-                        maskClosable={true}
-                        footer={
-                            <>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                                    {/* <Button onClick={handleUpdate} type="primary">Update</Button> */}
-                                </div>
-                            </>
-                        }
-                    >
-                        <CompanyProfileForm id={id} profileData={profileData} isDisabled={true} />
-                    </Modal>
+                    ?
+                    <CompanyProfileForm id={id} profileData={profileData} isDisabled={true} />
                     :
                     <div className='company-profile-page'>
                         <CompanyProfileForm id={id} profileData={profileData} />
