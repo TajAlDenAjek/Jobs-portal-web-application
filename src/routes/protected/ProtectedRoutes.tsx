@@ -3,6 +3,8 @@ import type { RouteObject } from "react-router-dom";
 import PostsPage from "../../pages/posts/PostsPage";
 import JobSeekerProfile from "../../pages/jobSeekerProfile/JobSeekerProfile";
 import CompanyProfile from "../../pages/companyProfile/CompanyProfile";
+import FindCandidates from "../../pages/findCandidates/FindCandidates";
+
 
 export const adminRoutes:RouteObject[] = [
     {
@@ -63,7 +65,7 @@ export const companyRoutes:RouteObject[] = [
     },
     {
         path: '/candidates',
-        element: <div>hi I am company candidates</div>
+        element: <FindCandidates/>
     },
     {
         path: '/manage-jobs',
