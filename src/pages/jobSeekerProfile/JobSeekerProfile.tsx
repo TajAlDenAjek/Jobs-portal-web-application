@@ -2,7 +2,8 @@ import React from 'react'
 import JobSeekerProfileForm from './JobSeekerProfileForm'
 import { Modal, Button } from 'antd'
 import { useGetProfileQuery } from '../../features/jobSeekerProfile/jobSeekerApiSlice'
-
+import { useSelector } from 'react-redux'
+import { selectCurrentId } from '../../features/auth/authSlice'
 interface JobSeekerProfileProps {
     isModal?: boolean
     id?: any,
@@ -14,29 +15,23 @@ const JobSeekerProfile: React.FC<JobSeekerProfileProps> = ({
     id,
     profileData
 }) => {
-    const [isModalOpen, setIsModalOpen] = React.useState(true)
-    const {
-        data,
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    } = useGetProfileQuery(id)
+    const currentId: string = useSelector(selectCurrentId)
+    
 
-    if (isSuccess) {
-        console.log(data)
-    } else if (isError) {
-        console.log(error)
-    }
+    // if (isSuccess) {
+    //     console.log(data)
+    // } else if (isError) {
+    //     console.log(error)
+    // }
     return (
         <>
             {
                 isModal
                     ?
-                    <JobSeekerProfileForm id={id} profileData={data?.user} isDisabled={true} />
+                    <JobSeekerProfileForm id={id ?? currentId} isDisabled={true} />
                     :
                     <div className='job-seeker-profile-page'>
-                        <JobSeekerProfileForm id={id} profileData={data?.user} />
+                        <JobSeekerProfileForm id={id ?? currentId} />
                     </div>
             }
         </>

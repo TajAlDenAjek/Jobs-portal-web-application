@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { MinusCircleOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons'
+import { useUpdateProfileMutation, useGetProfileQuery } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
 import type { GetProp, UploadProps, } from 'antd';
 import ResumePDF from './ResumePDF';
 import PhoneInput from 'antd-phone-input';
@@ -17,6 +18,7 @@ import {
     Switch,
     TreeSelect,
     Upload,
+    Spin
 } from 'antd'
 const { Option } = Select;
 import type { FormProps } from 'antd'
@@ -33,45 +35,9 @@ const getBase64 = (img: FileType, callback: (url: string) => void) => {
 };
 interface jobSeekerProfileProps {
     isDisabled?: boolean,
-    profileData?: any,
     id?: any,
 }
-const dummyData = {
-    email: 'example@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '123-456-7890',
-    gender: 'Male',
-    birthDate: '01/01/1990',
-    country: 'United States',
-    personalImage: 'https://via.placeholder.com/150',
-    descriptionOrSummary: 'Experienced software developer with a passion for creating innovative solutions.',
-    education: [
-      {
-        title: 'Bachelor of Science in Computer Science',
-        startDate: '09/2010',
-        endDate: '06/2014',
-      },
-      {
-        title: 'Master of Science in Software Engineering',
-        startDate: '09/2014',
-        endDate: '06/2016',
-      },
-    ],
-    workExperience: [
-      {
-        title: 'Software Engineer',
-        startDate: '07/2016',
-        endDate: 'Present',
-      },
-      {
-        title: 'Web Developer',
-        startDate: '01/2014',
-        endDate: '06/2016',
-      },
-    ],
-    skills: ['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'SQL'],
-  };
+
 type jobSeekerProfileFieldType = {
     email?: string,
     password?: string,
@@ -92,20 +58,23 @@ type jobSeekerProfileFieldType = {
 
 const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     isDisabled = false,
-    profileData,
     id,
 }) => {
-
     const [form] = Form.useForm();
+    const {
+        data,
+        isSuccess
+    } = useGetProfileQuery(id)
+    const [update, { isLoading }] = useUpdateProfileMutation()
+
 
     const [resumeData, setResumeData] = useState<any>({
         // Initialize your resume data here
     });
-    
+
     const handleGeneratePDF = async () => {
         console.log(form.getFieldsValue())
-        setResumeData(dummyData)
-        console.log(dummyData)
+        setResumeData(data?.user)
         try {
             const blob = await pdf(<ResumePDF props={resumeData} />).toBlob();
             const url = URL.createObjectURL(blob);
@@ -122,9 +91,8 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
             console.log(values)
+            const userData = await update({ id: id, data: values }).unwrap()
             message.success('Update Successful')
-            // form.resetFields()
-            // navigate('/')
         } catch (error: any) {
             message.error('Something went wrong')
         }
@@ -152,17 +120,18 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
             <div style={{ marginTop: 8 }}>Upload</div>
         </button>
     );
-    return (
-        <div>
+
+    let content = <Spin />
+    if (isSuccess) {
+        content =
             <Form
                 form={form}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
-                initialValues={profileData}
                 disabled={isDisabled}
                 autoComplete='off'
                 onFinish={onFinish}
-
+                initialValues={data?.user}
             >
                 <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
                     <Upload
@@ -362,14 +331,18 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     )}
                 </Form.List>
                 {
-                    !isDisabled && 
+                    !isDisabled &&
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                         <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
-                        <Button type='primary' htmlType='submit' disabled={false}>{false ? "Updating..." : "Update"}</Button>
+                        <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
                         <Button danger type="primary">Delete Profile</Button>
                     </div>
                 }
             </Form>
+    }
+    return (
+        <div>
+            {content}
         </div>
     )
 }

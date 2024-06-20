@@ -17,6 +17,7 @@ const baseQuery = fetchBaseQuery({
     // credentials: 'include',
     // credentials: "same-origin", 
     prepareHeaders: (headers, { getState}: any) => {
+        headers.set('Content-Type', 'application/json');
         const token = getState().auth.token
         if (token) {
             headers.set('authorization', `Bearer ${token}`)
@@ -32,7 +33,11 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     // your token maybe expired 
     if (result?.error?.status === 401) {
         api.dispatch(logOut())
-        window.location.replace('/login')
+        // window.location.replace('/login')
+    } else if (result?.error?.status === 500){
+        if(result?.error?.data?.message?.message==='jwt expired'){
+            api.dispatch(logOut())
+        }
     }
     return result
 }

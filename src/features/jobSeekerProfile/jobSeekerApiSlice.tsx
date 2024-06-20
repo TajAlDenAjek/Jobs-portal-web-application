@@ -23,16 +23,14 @@ export const jobSeekerApiSlice = apiSlice.injectEndpoints({
         }),
         updateProfile: builder.mutation({
             query: data => {
-                // const bodyFormData = new FormData();
-                // bodyFormData.append('image', data.image);
-                // bodyFormData.append('data', data.data);
                 return {
-                    url: `/auth/updateProfile`,
-                    method: 'PATCH',
-                    // body: bodyFormData,
+                    url: `/auth/updateProfile/${data?.id}`,
+                    method: 'PUT',
+                    body: data?.data,
                     formData: true,
                 };
-            }
+            },
+            invalidatesTags: ['JobSeekerProfile']
         }),
     })
 })
