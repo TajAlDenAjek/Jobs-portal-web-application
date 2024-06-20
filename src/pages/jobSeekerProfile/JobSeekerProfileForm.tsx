@@ -10,6 +10,8 @@ import FileUploader from '../../componenets/fileUploader/fileUploader';
 import MultipleStringsInput from '../../componenets/multipleStringsInput/MultipleStringsInput';
 import MultipleOjectsInput from '../../componenets/multipleObjectsInput/MultipleObjectsInput';
 import MultipleOjectsInput1 from '../../componenets/multipleObjectsInput/MultipleObjectInput1';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../features/auth/authSlice';
 import {
     Form, message, Input, Button,
     Cascader,
@@ -32,7 +34,8 @@ import type { FormProps } from 'antd'
 import './style.scss'
 import { pdf } from '@react-pdf/renderer';
 import { jobSeekerObjectToForm } from '../../componenets/helpers'
-
+import { useDeleteProfileMutation } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 interface jobSeekerProfileProps {
@@ -62,14 +65,26 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     id,
 }) => {
     const [form] = Form.useForm();
-    
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
     const {
         data,
         currentData,
         isSuccess
     } = useGetProfileQuery(id)
     const [update, { isLoading }] = useUpdateProfileMutation()
+    const [deleteProfile, { }] = useDeleteProfileMutation()
 
+    const handleDeleteProfile = async () => {
+        try {
+            await deleteProfile(id).unwrap()
+            dispatch(logOut())
+            navigate('/login')
+            message.success('Account Deleted Successful')
+        } catch (error: any) {
+            message.error('Something went wrong')
+        }
+    }
     const handleGeneratePDF = async () => {
         // console.log(currentData)
         try {
@@ -97,7 +112,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     personalImage: personalImage,
                     skills: skills,
                     education: education,
-                    workExperience:workExperience
+                    workExperience: workExperience
                 }
             }).unwrap()
             message.success('Update Successful')
@@ -177,17 +192,17 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"} />
                 </Form.Item>
                 <Form.Item<jobSeekerProfileFieldType> label="Education">
-                    <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"}/>
+                    <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"} />
                 </Form.Item>
                 <Form.Item<jobSeekerProfileFieldType> label="Work Experience">
-                    <MultipleOjectsInput1 form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"}/>
+                    <MultipleOjectsInput1 form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"} />
                 </Form.Item>
                 {
                     !isDisabled &&
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                         <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
                         <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
-                        <Button danger type="primary">Delete Profile</Button>
+                        <Button danger type="primary" onClick={handleDeleteProfile}>Delete Profile</Button>
                     </div>
                 }
             </Form>

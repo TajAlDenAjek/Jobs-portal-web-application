@@ -32,6 +32,16 @@ export const jobSeekerApiSlice = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['JobSeekerProfile']
         }),
+        deleteProfile: builder.mutation({
+            query: id => {
+                return {
+                    url: `/auth/${id}`,
+                    method: 'DELETE',
+                };
+            },
+            invalidatesTags: ['JobSeekerProfile']
+        }),
+
     })
 })
 
@@ -40,4 +50,5 @@ export const {
     useGetProfilesQuery,
     useGetProfileQuery,
     useUpdateProfileMutation,
+    useDeleteProfileMutation
 } = jobSeekerApiSlice;
