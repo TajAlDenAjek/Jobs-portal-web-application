@@ -45,34 +45,34 @@ const dummyData = {
     personalImage: 'https://via.placeholder.com/150',
     descriptionOrSummary: 'Experienced software developer with a passion for creating innovative solutions.',
     education: [
-      {
-        title: 'Bachelor of Science in Computer Science',
-        startDate: '09/2010',
-        endDate: '06/2014',
-      },
-      {
-        title: 'Master of Science in Software Engineering',
-        startDate: '09/2014',
-        endDate: '06/2016',
-      },
+        {
+            title: 'Bachelor of Science in Computer Science',
+            startDate: '09/2010',
+            endDate: '06/2014',
+        },
+        {
+            title: 'Master of Science in Software Engineering',
+            startDate: '09/2014',
+            endDate: '06/2016',
+        },
     ],
     workExperience: [
-      {
-        title: 'Software Engineer',
-        startDate: '07/2016',
-        endDate: 'Present',
-      },
-      {
-        title: 'Web Developer',
-        startDate: '01/2014',
-        endDate: '06/2016',
-      },
+        {
+            title: 'Software Engineer',
+            startDate: '07/2016',
+            endDate: 'Present',
+        },
+        {
+            title: 'Web Developer',
+            startDate: '01/2014',
+            endDate: '06/2016',
+        },
     ],
     skills: ['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'SQL'],
-  };
-const ResumePDF = (props: any) => {
-    const { email, firstName, lastName, phoneNumber, gender, birthDate, country, personalImage, descriptionOrSummary, education, workExperience, skills } = dummyData;
-    console.log('props I passed',props)
+};
+const ResumePDF = ({props}: any) => {
+    console.log('props ' , props)
+    const { email, firstName, lastName, phoneNumber, gender, birthDate, country, personalImage, descriptionOrSummary, education, workExperience, skills } = props;
     return (
         <Document>
             <Page size="A4" style={styles.page}>

@@ -22,7 +22,6 @@ const MultipleStringsInput: React.FC<MultipleStringsInputProps> = ({
     };
 
     const handleDeleteItem = (item: any) => {
-        console.log(item)
         const filteredItems = [...items].filter((i: any) => i !== item);
         setItems(filteredItems);
     };

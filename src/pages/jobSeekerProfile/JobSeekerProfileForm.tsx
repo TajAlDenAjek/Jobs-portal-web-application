@@ -9,6 +9,7 @@ import { validateDate } from '../../componenets/validation/validationRules';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
 import MultipleStringsInput from '../../componenets/multipleStringsInput/MultipleStringsInput';
 import MultipleOjectsInput from '../../componenets/multipleObjectsInput/MultipleObjectsInput';
+import MultipleOjectsInput1 from '../../componenets/multipleObjectsInput/MultipleObjectInput1';
 import {
     Form, message, Input, Button,
     Cascader,
@@ -64,20 +65,15 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     
     const {
         data,
+        currentData,
         isSuccess
     } = useGetProfileQuery(id)
     const [update, { isLoading }] = useUpdateProfileMutation()
 
-
-    const [resumeData, setResumeData] = useState<any>({
-        // Initialize your resume data here
-    });
-
     const handleGeneratePDF = async () => {
-        console.log(form.getFieldsValue())
-        setResumeData(data?.user)
+        // console.log(currentData)
         try {
-            const blob = await pdf(<ResumePDF props={resumeData} />).toBlob();
+            const blob = await pdf(<ResumePDF props={currentData?.user} />).toBlob();
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
@@ -184,7 +180,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"}/>
                 </Form.Item>
                 <Form.Item<jobSeekerProfileFieldType> label="Work Experience">
-                    <MultipleOjectsInput form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"}/>
+                    <MultipleOjectsInput1 form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"}/>
                 </Form.Item>
                 {
                     !isDisabled &&

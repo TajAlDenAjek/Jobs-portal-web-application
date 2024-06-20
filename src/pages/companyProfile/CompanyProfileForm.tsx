@@ -58,7 +58,6 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
 
     const onFinish: FormProps<CompanyProfileFieldType>['onFinish'] = async (values) => {
         try {
-            console.log(values)
             message.success('Update Successful')
             // form.resetFields()
             // navigate('/')

@@ -34,7 +34,6 @@ const FileUploader: React.FC<fileUploaderProps> = ({
             return;
         }
         if (info.file.status === 'done') {
-            console.log(info.file)
             // Get this url from response in real world.
             getBase64(info.file.originFileObj as FileType, (url) => {
                 setLoading(false);
