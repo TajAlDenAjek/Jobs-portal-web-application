@@ -2,20 +2,39 @@ import React, { useState, useEffect } from 'react'
 import { Input } from 'antd'
 import Company from './Company'
 import './styles.scss'
-const FindCompanies = () => {
-    
-    // fetch user profiles
-    let profiles: any = [1, 2, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2]
+import { Spin, Empty } from 'antd'
 
+import { useGetCompanyProfilesQuery } from '../../features/companyProfile/companyProfileApiSlice'
+const FindCompanies = () => {
+    const {
+        data,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetCompanyProfilesQuery({})
+
+    let content = <Empty />
+    if (isLoading) {
+        content = <Spin />
+    } else if (isSuccess) {
+        console.log(data)
+        content = (
+            data?.companies?.map((profile: any, index: any) => {
+                return <Company key={index} profile={profile} />
+            })
+        )
+        if (data?.companies?.length === 0) {
+            content = <Empty />
+        }
+    } else if (isError) {
+        content = <>{error}</>
+    }
 
     return (
         <div className='find-companies-page'>
             <Input.Search />
-            {
-                profiles.map((profile: any, index: any) => {
-                    return <Company key={index} profile={profile} />
-                })
-            }
+            {content}
         </div>
     )
 }
