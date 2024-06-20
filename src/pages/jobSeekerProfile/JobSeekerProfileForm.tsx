@@ -5,6 +5,7 @@ import type { GetProp, UploadProps, } from 'antd';
 import ResumePDF from './ResumePDF';
 import PhoneInput from 'antd-phone-input';
 import 'antd-phone-input/styles';
+import { validateDate } from '../../componenets/validation/validationRules';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
 import {
     Form, message, Input, Button,
@@ -25,6 +26,7 @@ const { Option } = Select;
 import type { FormProps } from 'antd'
 import './style.scss'
 import { pdf } from '@react-pdf/renderer';
+import { jobSeekerObjectToForm } from '../../componenets/helpers'
 
 
 
@@ -39,7 +41,6 @@ type jobSeekerProfileFieldType = {
     firstName?: string,
     lastName?: string,
     phoneNumber?: string,
-    phoneNumber_temp?: string,
     gender?: "male" | "female",
     birthDate?: string,
     country?: string,
@@ -61,8 +62,8 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
         isSuccess
     } = useGetProfileQuery(id)
     const [update, { isLoading }] = useUpdateProfileMutation()
-    
-    
+
+
     const [resumeData, setResumeData] = useState<any>({
         // Initialize your resume data here
     });
@@ -82,12 +83,12 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
             console.error("Failed to generate PDF:", error);
         }
     };
-    const [personalImage,setPersonalImage]=useState(data?.user?.personalImage ?? '')
+    const [personalImage, setPersonalImage] = useState(data?.user?.personalImage ?? '')
 
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
             console.log(values)
-            const userData = await update({ id: id, data: {...values,personalImage:personalImage} }).unwrap()
+            const userData = await update({ id: id, data: { ...values, personalImage: personalImage } }).unwrap()
             message.success('Update Successful')
         } catch (error: any) {
             message.error('Something went wrong')
@@ -95,7 +96,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     }
 
 
-    
+
 
     let content = <Spin />
     if (isSuccess) {
@@ -107,10 +108,10 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 disabled={isDisabled}
                 autoComplete='off'
                 onFinish={onFinish}
-                initialValues={data?.user}
+                initialValues={jobSeekerObjectToForm(data?.user)}
             >
                 <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
-                    <FileUploader setUrl={setPersonalImage} url={personalImage}/>
+                    <FileUploader setUrl={setPersonalImage} url={personalImage} />
                 </Form.Item>
                 <Upload />
                 <Form.Item<jobSeekerProfileFieldType> name="firstName" label="First Name"
@@ -146,17 +147,20 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                         <Radio value="female"> Female </Radio>
                     </Radio.Group>
                 </Form.Item>
-
-                <Form.Item<jobSeekerProfileFieldType>
-                    name="phoneNumber_temp"
-                    label="Phone Number"
+                <Form.Item<jobSeekerProfileFieldType> name="phoneNumber" label="Phone Numbe"
+                    rules={[{ required: false, message: 'Enter a vaild phone number', min: 10, max: 10 }]}
                 >
-                    <PhoneInput
-                        country={"sy"}
-                        disableDropdown={false}
-                        enableSearch={true}
-                        excludeCountries={['il']}
-                    />
+                    <Input type='text' />
+                </Form.Item>
+                <Form.Item<jobSeekerProfileFieldType> name="country" label="Country"
+                    rules={[{ required: false, message: 'Enter a vaild country ' }]}
+                >
+                    <Input type='text' />
+                </Form.Item>
+                <Form.Item<jobSeekerProfileFieldType> name="birthDate" label="Birth Date"
+                    rules={[{ validator: validateDate, }]}
+                >
+                    <Input type='text' />
                 </Form.Item>
                 {/* List of Educations */}
                 <Form.List name="educations">
