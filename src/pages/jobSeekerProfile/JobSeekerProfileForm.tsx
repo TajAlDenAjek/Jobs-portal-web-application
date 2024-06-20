@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MinusCircleOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusOutlined, LoadingOutlined, CloseOutlined } from '@ant-design/icons'
 import { useUpdateProfileMutation, useGetProfileQuery } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
 import type { GetProp, UploadProps, } from 'antd';
 import ResumePDF from './ResumePDF';
@@ -7,6 +7,7 @@ import PhoneInput from 'antd-phone-input';
 import 'antd-phone-input/styles';
 import { validateDate } from '../../componenets/validation/validationRules';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
+import MultipleStringsInput from '../../componenets/multipleStringsInput/MultipleStringsInput';
 import {
     Form, message, Input, Button,
     Cascader,
@@ -20,8 +21,10 @@ import {
     Switch,
     TreeSelect,
     Upload,
-    Spin
+    Spin, Tag
+
 } from 'antd'
+
 const { Option } = Select;
 import type { FormProps } from 'antd'
 import './style.scss'
@@ -85,18 +88,19 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     };
     const [personalImage, setPersonalImage] = useState(data?.user?.personalImage ?? '')
 
+    const [skills, setSkills] = useState([]);
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
             console.log(values)
-            const userData = await update({ id: id, data: { ...values, personalImage: personalImage } }).unwrap()
+            // const newSkills = values.stringList.split('\n').map((item) => item.trim());
+            // setSkills(newSkills);
+            const userData = await update({ id: id, data: { ...values, personalImage: personalImage, skills: skills } }).unwrap()
             message.success('Update Successful')
         } catch (error: any) {
             message.error('Something went wrong')
         }
     }
-
-
-
+    
 
     let content = <Spin />
     if (isSuccess) {
@@ -109,6 +113,8 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 autoComplete='off'
                 onFinish={onFinish}
                 initialValues={jobSeekerObjectToForm(data?.user)}
+                onKeyDown={(e)=> e.key == "Enter" ? e.preventDefault(): ''}
+
             >
                 <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
                     <FileUploader setUrl={setPersonalImage} url={personalImage} />
@@ -162,145 +168,9 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 >
                     <Input type='text' />
                 </Form.Item>
-                {/* List of Educations */}
-                <Form.List name="educations">
-                    {(fields, { add, remove }) => (
-                        <>
-                            {fields.map((field) => (
-                                <Form.Item
-                                    {...field}
-                                    key={field.key}
-                                    label={`Education ${field.key + 1}`}
-                                >
-                                    <Form.Item
-                                        name={[field.name, 'title']}
-                                        // fieldKey={[field.fieldKey, 'title']}
-                                        rules={[{ required: true, message: 'Please input the title!' }]}
-                                    >
-                                        <Input placeholder="Title" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name={[field.name, 'startDate']}
-                                        // fieldKey={[field.fieldKey, 'startDate']}
-                                        rules={[{ required: true, message: 'Please select the start date!' }]}
-                                    >
-                                        <DatePicker placeholder="Start Date" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name={[field.name, 'endDate']}
-                                        // fieldKey={[field.fieldKey, 'endDate']}
-                                        rules={[{ required: true, message: 'Please select the end date!' }]}
-                                    >
-                                        <DatePicker placeholder="End Date" />
-                                    </Form.Item>
-                                    {fields.length > 1 ? (
-                                        <MinusCircleOutlined
-                                            onClick={() => {
-                                                remove(field.name);
-                                            }}
-                                        />
-                                    ) : null}
-                                </Form.Item>
-                            ))}
-                            <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block>
-                                    <PlusOutlined /> Add Education
-                                </Button>
-                            </Form.Item>
-                        </>
-                    )}
-                </Form.List>
-
-                {/* List of Work Experiences */}
-                <Form.List name="workExperiences">
-                    {(fields, { add, remove }) => (
-                        <>
-                            {fields.map((field) => (
-                                <Form.Item
-                                    {...field}
-                                    key={field.key}
-                                    label={`Work Experience ${field.key + 1}`}
-                                >
-                                    <Form.Item
-                                        name={[field.name, 'titleWork']}
-                                        // fieldKey={[field.fieldKey, 'titleWork']}
-                                        rules={[{ required: true, message: 'Please input the job title!' }]}
-                                    >
-                                        <Input placeholder="Job Title" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name={[field.name, 'startDateWork']}
-                                        // fieldKey={[field.fieldKey, 'startDateWork']}
-                                        rules={[{ required: true, message: 'Please select the start date!' }]}
-                                    >
-                                        <DatePicker placeholder="Start Date" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name={[field.name, 'endDateWork']}
-                                        // fieldKey={[field.fieldKey, 'endDateWork']}
-                                        rules={[{ required: true, message: 'Please select the end date!' }]}
-                                    >
-                                        <DatePicker placeholder="End Date" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name={[field.name, 'isCurrentlyEmployed']}
-                                        // fieldKey={[field.fieldKey, 'isCurrentlyEmployed']}
-                                        valuePropName="checked"
-                                    >
-                                        <Checkbox>Is Currently Employed</Checkbox>
-                                    </Form.Item>
-                                    {fields.length > 1 ? (
-                                        <MinusCircleOutlined
-                                            onClick={() => {
-                                                remove(field.name);
-                                            }}
-                                        />
-                                    ) : null}
-                                </Form.Item>
-                            ))}
-                            <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block>
-                                    <PlusOutlined /> Add Work Experience
-                                </Button>
-                            </Form.Item>
-                        </>
-                    )}
-                </Form.List>
-
-                {/* List of Skills */}
-                <Form.List name="skills">
-                    {(fields, { add, remove }) => (
-                        <>
-                            {fields.map((field) => (
-                                <Form.Item
-                                    {...field}
-                                    key={field.key}
-                                    label={`Skill ${field.key + 1}`}
-                                >
-                                    <Form.Item
-                                        name={[field.name, 'skill']}
-                                        // fieldKey={[field.fieldKey, 'skill']}
-                                        rules={[{ required: true, message: 'Please input the skill!' }]}
-                                    >
-                                        <Input placeholder="Skill" />
-                                    </Form.Item>
-                                    {fields.length > 1 ? (
-                                        <MinusCircleOutlined
-                                            onClick={() => {
-                                                remove(field.name);
-                                            }}
-                                        />
-                                    ) : null}
-                                </Form.Item>
-                            ))}
-                            <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block>
-                                    <PlusOutlined /> Add Skill
-                                </Button>
-                            </Form.Item>
-                        </>
-                    )}
-                </Form.List>
+                <Form.Item<jobSeekerProfileFieldType> label="Skills">
+                    <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"}/>
+                </Form.Item>
                 {
                     !isDisabled &&
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
