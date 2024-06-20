@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MinusCircleOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons'
 import type { GetProp, UploadProps, } from 'antd';
 import ResumePDF from './ResumePDF';
@@ -97,6 +97,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
 }) => {
 
     const [form] = Form.useForm();
+
     const [resumeData, setResumeData] = useState<any>({
         // Initialize your resume data here
     });
@@ -157,7 +158,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 form={form}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
-                // initialValues={{ remember: true }}
+                initialValues={profileData}
                 disabled={isDisabled}
                 autoComplete='off'
                 onFinish={onFinish}
@@ -360,11 +361,14 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                         </>
                     )}
                 </Form.List>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                    <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
-                    <Button type='primary' htmlType='submit' disabled={false}>{false ? "Updating..." : "Update"}</Button>
-                    <Button danger type="primary">Delete Profile</Button>
-                </div>
+                {
+                    !isDisabled && 
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                        <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
+                        <Button type='primary' htmlType='submit' disabled={false}>{false ? "Updating..." : "Update"}</Button>
+                        <Button danger type="primary">Delete Profile</Button>
+                    </div>
+                }
             </Form>
         </div>
     )

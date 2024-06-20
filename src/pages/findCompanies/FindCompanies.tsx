@@ -3,7 +3,7 @@ import { Input } from 'antd'
 import Company from './Company'
 import './styles.scss'
 const FindCompanies = () => {
-
+    
     // fetch user profiles
     let profiles: any = [1, 2, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2]
 

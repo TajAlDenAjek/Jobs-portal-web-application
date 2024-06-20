@@ -13,12 +13,12 @@ export type JobSeekerProfile = {
 
 export const jobSeekerApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        // getComments: builder.query({
-        //     query: (id) => `/comment/all/${id}`,
-        //     providesTags: ['Comments']
-        // }),
+        getProfiles: builder.query({
+            query: () => `/auth`,
+            providesTags: ['JobSeekerProfile']
+        }),
         getProfile: builder.query({
-            query: ()=> `/auth/updateProfile`,
+            query: (id)=> `/auth/${id}`,
             providesTags: ['JobSeekerProfile']
         }),
         updateProfile: builder.mutation({
@@ -39,7 +39,7 @@ export const jobSeekerApiSlice = apiSlice.injectEndpoints({
 
 
 export const {
+    useGetProfilesQuery,
     useGetProfileQuery,
     useUpdateProfileMutation,
-    // useGetCommentsQuery,
 } = jobSeekerApiSlice;

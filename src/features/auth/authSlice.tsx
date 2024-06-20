@@ -14,8 +14,8 @@ export type User = {
 let intiState: User = {
     id: null,
     username: null,
-    permission: "company",
-    token: true
+    permission: null,
+    token: null
 }
 // get localstoragestate
 if (localStorage.getItem('auth') !== null) {

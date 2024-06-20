@@ -25,7 +25,7 @@ const Candidate: React.FC<CandidateProps> = ({
                     style={{ borderRadius: '50%' }}
                     src={profile?.personalImage ?? '/src/assets/avatar.jfif'}
                 />
-                <p className='candidate-text'>first name last name{profile?.firstName}</p>
+                <p className='candidate-text'>{profile?.firstName+' '+profile?.lastName}</p>
             </Card>
             <Modal
                 width={600}
@@ -44,7 +44,7 @@ const Candidate: React.FC<CandidateProps> = ({
                     </>
                 }
             >
-                <JobSeekerProfile isModal={true} />
+                <JobSeekerProfile isModal={true} profileData={profile} id={profile?._id}/>
             </Modal>
         </>
     )

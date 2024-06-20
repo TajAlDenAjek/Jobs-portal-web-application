@@ -32,6 +32,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     // your token maybe expired 
     if (result?.error?.status === 401) {
         api.dispatch(logOut())
+        window.location.replace('/login')
     }
     return result
 }

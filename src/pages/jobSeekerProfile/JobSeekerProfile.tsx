@@ -21,7 +21,7 @@ const JobSeekerProfile: React.FC<JobSeekerProfileProps> = ({
         isSuccess,
         isError,
         error
-    } = useGetProfileQuery({})
+    } = useGetProfileQuery(id)
 
     if (isSuccess) {
         console.log(data)
@@ -33,10 +33,10 @@ const JobSeekerProfile: React.FC<JobSeekerProfileProps> = ({
             {
                 isModal
                     ?
-                    <JobSeekerProfileForm id={id} profileData={profileData} isDisabled={true} />
+                    <JobSeekerProfileForm id={id} profileData={data?.user} isDisabled={true} />
                     :
                     <div className='job-seeker-profile-page'>
-                        <JobSeekerProfileForm id={id} profileData={profileData} />
+                        <JobSeekerProfileForm id={id} profileData={data?.user} />
                     </div>
             }
         </>
