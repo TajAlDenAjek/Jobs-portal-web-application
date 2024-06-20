@@ -5,6 +5,7 @@ import type { GetProp, UploadProps, } from 'antd';
 import ResumePDF from './ResumePDF';
 import PhoneInput from 'antd-phone-input';
 import 'antd-phone-input/styles';
+import FileUploader from '../../componenets/fileUploader/fileUploader';
 import {
     Form, message, Input, Button,
     Cascader,
@@ -26,13 +27,7 @@ import './style.scss'
 import { pdf } from '@react-pdf/renderer';
 
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-};
 interface jobSeekerProfileProps {
     isDisabled?: boolean,
     id?: any,
@@ -66,8 +61,8 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
         isSuccess
     } = useGetProfileQuery(id)
     const [update, { isLoading }] = useUpdateProfileMutation()
-
-
+    
+    
     const [resumeData, setResumeData] = useState<any>({
         // Initialize your resume data here
     });
@@ -87,39 +82,20 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
             console.error("Failed to generate PDF:", error);
         }
     };
+    const [personalImage,setPersonalImage]=useState(data?.user?.personalImage ?? '')
 
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
             console.log(values)
-            const userData = await update({ id: id, data: values }).unwrap()
+            const userData = await update({ id: id, data: {...values,personalImage:personalImage} }).unwrap()
             message.success('Update Successful')
         } catch (error: any) {
             message.error('Something went wrong')
         }
     }
-    const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState<string>();
 
-    const handleChange: UploadProps['onChange'] = (info) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj as FileType, (url) => {
-                setLoading(false);
-                setImageUrl(url);
-            });
-        }
-    };
 
-    const uploadButton = (
-        <button style={{ border: 0, background: 'none' }} type="button">
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </button>
-    );
+    
 
     let content = <Spin />
     if (isSuccess) {
@@ -134,16 +110,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 initialValues={data?.user}
             >
                 <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader"
-                        showUploadList={false}
-                        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                        onChange={handleChange}
-                    >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                    </Upload>
+                    <FileUploader setUrl={setPersonalImage} url={personalImage}/>
                 </Form.Item>
                 <Upload />
                 <Form.Item<jobSeekerProfileFieldType> name="firstName" label="First Name"
