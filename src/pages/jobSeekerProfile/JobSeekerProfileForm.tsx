@@ -88,7 +88,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     const handleGeneratePDF = async () => {
         // console.log(currentData)
         try {
-            const blob = await pdf(<ResumePDF props={currentData?.user} />).toBlob();
+            const blob = await pdf(<ResumePDF props={jobSeekerObjectToForm(currentData?.user)} />).toBlob();
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
