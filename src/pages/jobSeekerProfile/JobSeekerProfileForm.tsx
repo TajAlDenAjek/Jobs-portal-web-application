@@ -8,6 +8,7 @@ import 'antd-phone-input/styles';
 import { validateDate } from '../../componenets/validation/validationRules';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
 import MultipleStringsInput from '../../componenets/multipleStringsInput/MultipleStringsInput';
+import MultipleOjectsInput from '../../componenets/multipleObjectsInput/MultipleObjectsInput';
 import {
     Form, message, Input, Button,
     Cascader,
@@ -60,6 +61,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     id,
 }) => {
     const [form] = Form.useForm();
+    
     const {
         data,
         isSuccess
@@ -89,18 +91,25 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     const [personalImage, setPersonalImage] = useState(data?.user?.personalImage ?? '')
 
     const [skills, setSkills] = useState([]);
+    const [education, setEducation] = useState([]);
+    const [workExperience, setWorkExperience] = useState([]);
     const onFinish: FormProps<jobSeekerProfileFieldType>['onFinish'] = async (values) => {
         try {
-            console.log(values)
-            // const newSkills = values.stringList.split('\n').map((item) => item.trim());
-            // setSkills(newSkills);
-            const userData = await update({ id: id, data: { ...values, personalImage: personalImage, skills: skills } }).unwrap()
+            const userData = await update({
+                id: id, data: {
+                    ...values,
+                    personalImage: personalImage,
+                    skills: skills,
+                    education: education,
+                    workExperience:workExperience
+                }
+            }).unwrap()
             message.success('Update Successful')
         } catch (error: any) {
             message.error('Something went wrong')
         }
     }
-    
+
 
     let content = <Spin />
     if (isSuccess) {
@@ -113,7 +122,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 autoComplete='off'
                 onFinish={onFinish}
                 initialValues={jobSeekerObjectToForm(data?.user)}
-                onKeyDown={(e)=> e.key == "Enter" ? e.preventDefault(): ''}
+                onKeyDown={(e) => e.key == "Enter" ? e.preventDefault() : ''}
 
             >
                 <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
@@ -169,7 +178,13 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     <Input type='text' />
                 </Form.Item>
                 <Form.Item<jobSeekerProfileFieldType> label="Skills">
-                    <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"}/>
+                    <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"} />
+                </Form.Item>
+                <Form.Item<jobSeekerProfileFieldType> label="Education">
+                    <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"}/>
+                </Form.Item>
+                <Form.Item<jobSeekerProfileFieldType> label="Work Experience">
+                    <MultipleOjectsInput form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"}/>
                 </Form.Item>
                 {
                     !isDisabled &&
