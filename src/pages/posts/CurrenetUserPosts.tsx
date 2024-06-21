@@ -4,23 +4,28 @@ import { Flex, message, Card, Image, Modal, Form, Upload, Input, Button } from '
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { GetProp, UploadProps, } from 'antd';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
-import { useCreatePostMutation } from '../../features/post/postApiSlice';
+import { useCreatePostMutation, useGetUserPostsQuery } from '../../features/post/postApiSlice';
+import { Empty, Spin } from 'antd';
 
 const CurrenetUserPosts = () => {
+  const { data: posts, isLoading: isPostsLoading, isSuccess, isError } = useGetUserPostsQuery({})
+  let content = <Empty />
+  if (isPostsLoading) {
+    content = <Spin />
+  } else if (isSuccess) {
+    content = (
+      <PostsList posts={posts?.posts} isPostOwned={true} />
+    )
+    if (!posts?.posts || posts?.posts?.length === 0) {
+      content = <Empty />
+    }
+  }
   const [createPost, { isLoading }] = useCreatePostMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleCreate = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleDelete = () => {
-    setIsModalOpen(false);
   };
 
   const [imageUrl, setImageUrl] = useState<string>();
@@ -33,7 +38,7 @@ const CurrenetUserPosts = () => {
         imageUrl: imageUrl
       }).unwrap()
       setIsModalOpen(false)
-      message.success('Post Created Successful')
+      message.success('Post Created ')
     } catch (error: any) {
       message.error('Something went wrong')
     }
@@ -45,7 +50,7 @@ const CurrenetUserPosts = () => {
         <div>
           <Button onClick={showModal}> Create new post </Button>
         </div>
-        <PostsList posts={[1, 2, 3]} isPostOwned={true} />
+        {content}
       </div>
       <Modal
         width={600}
