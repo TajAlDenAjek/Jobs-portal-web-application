@@ -5,3 +5,9 @@ export const jobSeekerObjectToForm=(obj:any)=>{
         password:'',
     }
 }
+export const CompanyObjectToForm=(obj:any)=>{
+    return{
+        ...obj,
+        password:'',
+    }
+}

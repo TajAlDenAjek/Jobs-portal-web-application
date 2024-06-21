@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '../../features/auth/authSlice';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
-
+import { CompanyObjectToForm } from '../../componenets/helpers';
 import 'antd-phone-input/styles';
 import {
     Form, message, Input, Button,
@@ -85,7 +85,7 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
                 form={form}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
-                initialValues={data?.company}
+                initialValues={CompanyObjectToForm(data?.company)}
                 disabled={isDisabled}
                 autoComplete='off'
                 onFinish={onFinish}
