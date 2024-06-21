@@ -5,7 +5,7 @@ import { apiSlice } from "../../app/api/apiSlice";
 export const CompanyApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getCompanyProfiles: builder.query({
-            query: () => `/auth/companies`,
+            query: () => `/auth/company/company/companies`,
             providesTags: ['CompanyProfile']
         }),
         getCompanyProfile: builder.query({

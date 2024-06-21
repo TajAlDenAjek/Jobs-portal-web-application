@@ -25,7 +25,7 @@ const Company: React.FC<CompanyProps> = ({
                     style={{ borderRadius: '50%' }}
                     src={profile?.personalImage ?? '/src/assets/avatar.jfif'}
                 />
-                <p className='company-text'>Company Name{profile?.CompanyName}</p>
+                <p className='company-text'>{profile?.name}</p>
             </Card>
             <Modal
                 width={600}
@@ -44,7 +44,7 @@ const Company: React.FC<CompanyProps> = ({
                     </>
                 }
             >
-                <CompanyProfile isModal={true} />
+                <CompanyProfile isModal={true} id={profile?._id}/>
             </Modal>
         </>
     )

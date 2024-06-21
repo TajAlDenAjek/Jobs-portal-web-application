@@ -16,13 +16,6 @@ const JobSeekerProfile: React.FC<JobSeekerProfileProps> = ({
     profileData
 }) => {
     const currentId: string = useSelector(selectCurrentId)
-    
-
-    // if (isSuccess) {
-    //     console.log(data)
-    // } else if (isError) {
-    //     console.log(error)
-    // }
     return (
         <>
             {
