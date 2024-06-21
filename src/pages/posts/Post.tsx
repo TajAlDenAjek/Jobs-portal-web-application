@@ -23,9 +23,6 @@ const Post: React.FC<PostProps> = ({
   post,
   isPostOwned
 }) => {
-  post = {
-    text: post + 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere repellendus officia porro, aliquam facilis illum dolores dolorem est tempore quo, qui expedita dignissimos inventore omnis? Veniam corporis perspiciatis totam sed.'
-  }
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {

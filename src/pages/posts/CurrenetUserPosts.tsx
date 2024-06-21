@@ -3,17 +3,11 @@ import PostsList from './PostsList'
 import { Flex, message, Card, Image, Modal, Form, Upload, Input, Button } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { GetProp, UploadProps, } from 'antd';
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result as string));
-  reader.readAsDataURL(img);
-};
-
+import FileUploader from '../../componenets/fileUploader/fileUploader';
+import { useCreatePostMutation } from '../../features/post/postApiSlice';
 
 const CurrenetUserPosts = () => {
+  const [createPost, { isLoading }] = useCreatePostMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,29 +22,22 @@ const CurrenetUserPosts = () => {
   const handleDelete = () => {
     setIsModalOpen(false);
   };
-  const [loading, setLoading] = useState(false);
+
   const [imageUrl, setImageUrl] = useState<string>();
 
-  const handleChange: UploadProps['onChange'] = (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as FileType, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+  const onFinish = async (values) => {
+    try {
+      const postData = await createPost({
+        ...values,
+        imageUrl: imageUrl
+      }).unwrap()
+      setIsModalOpen(false)
+      message.success('Post Created Successful')
+    } catch (error: any) {
+      message.error('Something went wrong')
+    }
+  }
 
   return (
     <>
@@ -72,32 +59,30 @@ const CurrenetUserPosts = () => {
         okType='primary'
         footer={
           <>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <Button onClick={handleCreate} type="primary">Create</Button>
-            </div>
           </>
         }
       >
         <>
-          <Form>
-            <Flex gap="middle" wrap='wrap'>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                onChange={handleChange}
-              >
-                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-              </Upload>
-            </Flex>
-            <Form.Item style={{marginTop:'25px'}}>
-              <Input.TextArea name='text' />
+          <Form
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+            onFinish={onFinish}
+          >
+            <Form.Item style={{ marginTop: '25px' }} label="Post Image">
+              <FileUploader url={imageUrl} setUrl={setImageUrl} />
             </Form.Item>
+            <Form.Item style={{ marginTop: '25px' }}
+              name={'text'}
+              label={'Post text'}
+              rules={[{ required: true, message: 'Enter post text at least 30 chars', min: 30, max: 1000 }]}>
+              <Input.TextArea rows={3} />
+            </Form.Item>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              <Button htmlType='submit' type="primary" disabled={isLoading}>{isLoading ? "Creating..." : "Create"}</Button>
+            </div>
           </Form>
         </>
-      </Modal>
+      </Modal >
     </>
   )
 }
