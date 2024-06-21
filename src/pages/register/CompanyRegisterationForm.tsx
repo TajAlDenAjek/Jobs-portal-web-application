@@ -46,7 +46,7 @@ const CompanyRegisterationForm = () => {
                 <Input type='email' />
             </Form.Item>
             <Form.Item<CompanyRegisterFieldType> name="password" label="Password"
-                rules={[{ required: true, message: 'Please Enter your password' }]}
+                rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
             >
                 <Input.Password />
             </Form.Item>

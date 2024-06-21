@@ -18,7 +18,6 @@ const FindCompanies = () => {
     if (isLoading) {
         content = <Spin />
     } else if (isSuccess) {
-        console.log(data)
         content = (
             data?.companies?.map((profile: any, index: any) => {
                 return <Company key={index} profile={profile} />

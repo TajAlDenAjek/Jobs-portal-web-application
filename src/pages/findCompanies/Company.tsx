@@ -23,7 +23,7 @@ const Company: React.FC<CompanyProps> = ({
                     preview={false}
                     width={'40px'}
                     style={{ borderRadius: '50%' }}
-                    src={profile?.personalImage ?? '/src/assets/avatar.jfif'}
+                    src={profile?.companyImage ?? '/src/assets/avatar.jfif'}
                 />
                 <p className='company-text'>{profile?.name}</p>
             </Card>

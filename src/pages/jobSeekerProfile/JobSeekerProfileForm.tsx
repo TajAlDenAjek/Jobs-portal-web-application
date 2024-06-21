@@ -156,7 +156,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     <Input type='email' />
                 </Form.Item>
                 <Form.Item<jobSeekerProfileFieldType> name="password" label="Password"
-                    rules={[{ required: true, message: 'Please Enter your password' }]}
+                    rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
                 >
                     <Input.Password />
                 </Form.Item>
