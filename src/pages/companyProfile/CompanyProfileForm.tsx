@@ -26,7 +26,7 @@ type CompanyProfileFieldType = {
     email?: string,
     password?: string,
     name?: string,
-    PhoneNumber?: string,
+    phoneNumber?: string,
     Site?: string,
     Specialization?:string,
     About?: string,
@@ -68,7 +68,7 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
             const companyData = await update({
                 id: id, data: {
                     ...values,
-                    personalImage: companyImage,
+                    companyImage: companyImage,
                 }
             }).unwrap()
             message.success('Update Successful')
@@ -92,7 +92,7 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
 
             >
                 <Form.Item<CompanyProfileFieldType> label="Company Logo">
-                    <FileUploader setUrl={setCompanyImage} url={companyImage} />
+                    <FileUploader setUrl={setCompanyImage} url={data?.company?.companyImage} />
                 </Form.Item>
                 <Form.Item<CompanyProfileFieldType> name="name" label="Company Name"
                     rules={[{ required: true, message: 'Please Enter your comapny name with at least 3 chars', min: 3 }]}
@@ -123,7 +123,7 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
                 >
                     <Input.TextArea rows={4} />
                 </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="PhoneNumber" label="Phone Numbe"
+                <Form.Item<CompanyProfileFieldType> name="phoneNumber" label="Phone Number"
                     rules={[{ required: false, message: 'Enter a vaild phone number', min: 10, max: 10 }]}
                 >
                     <Input type='text' />
@@ -132,8 +132,8 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
                 {
                     !isDisabled &&
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                        <Button type='primary' htmlType='submit' disabled={false}>{false ? "Updating..." : "Update"}</Button>
-                        <Button danger type="primary">Delete Account</Button>
+                        <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
+                        <Button danger type="primary" onClick={handleDeleteProfile}>Delete Account</Button>
                     </div>
                 }
             </Form>

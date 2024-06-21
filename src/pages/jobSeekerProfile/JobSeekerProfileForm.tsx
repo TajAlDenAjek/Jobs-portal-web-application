@@ -57,6 +57,7 @@ type jobSeekerProfileFieldType = {
     education?: any,
     workExperience?: any,
     skills?: any,
+    Specialization?:string
 }
 
 
@@ -159,6 +160,10 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                     rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
                 >
                     <Input.Password />
+                </Form.Item>
+                <Form.Item<jobSeekerProfileFieldType> name="Specialization" label="Specialization"
+                >
+                    <Input type='text' />
                 </Form.Item>
                 <Form.Item<jobSeekerProfileFieldType>
                     name="descriptionOrSummary"

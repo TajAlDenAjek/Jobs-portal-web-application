@@ -23,7 +23,6 @@ interface fileUploaderProps {
 const FileUploader: React.FC<fileUploaderProps> = ({
     url, setUrl
 }) => {
-
     const userToken = useSelector(selectCurrentToken)
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>(url);
