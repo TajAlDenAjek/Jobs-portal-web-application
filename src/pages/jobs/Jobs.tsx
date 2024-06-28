@@ -1,11 +1,11 @@
 import React from 'react'
 import JobsList from './JobsList'
 import { Spin ,Empty} from 'antd'
-import { useGetPostsQuery } from '../../features/post/postApiSlice'
+import { useGetJobsQuery } from '../../features/job/jobApiSlice'
 
 
 const Jobs = () => {
-    const { data , isLoading, isSuccess, isError } = useGetPostsQuery({})
+    const { data , isLoading, isSuccess, isError } = useGetJobsQuery({})
     let content = <Empty />
     if (isLoading) {
         content = <Spin />

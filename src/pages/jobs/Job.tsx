@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { message, Card, Modal, Form, Input, Button } from 'antd'
-import { useUpdatePostMutation, useDeletePostMutation } from '../../features/post/postApiSlice';
+import { message, Card, Modal, Form, Input, Button,Radio } from 'antd'
+import { useUpdateJobMutation, useDeleteJObMutation } from '../../features/job/jobApiSlice'
 
 interface JobProps {
     job: any,
@@ -12,8 +12,8 @@ const Job: React.FC<JobProps> = ({
     isJobOwned
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [updateJob, { isLoading }] = useUpdatePostMutation();
-    const [deleteJob, { }] = useDeletePostMutation();
+    const [updateJob, { isLoading }] = useUpdateJobMutation();
+    const [deleteJob, { }] = useDeleteJObMutation();
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -82,9 +82,35 @@ const Job: React.FC<JobProps> = ({
                                 initialValues={job}
                             >
                                 <Form.Item style={{ marginTop: '25px' }}
-                                    name={'text'}
-                                    label={'Job text'}
-                                    rules={[{ required: true, message: 'Enter job text at least 30 chars', min: 30, max: 1000 }]}>
+                                    name={'jobTitle'}
+                                    label={'Job Title'}
+                                    rules={[{ required: true, message: 'Job title is required' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item
+                                    name={'yearsOfExperience'}
+                                    label={'Years Of Experince'}
+                                    rules={[{ required: true, message: 'Years of Experince is required' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item label="Work Type" name={"workPosition"}>
+                                    <Radio.Group>
+                                        <Radio value="Full-time"> Full Time </Radio>
+                                        <Radio value="Part-time"> Part Time </Radio>
+                                        <Radio value="Contract"> Contract </Radio>
+                                        <Radio value="Internship"> Internship </Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'salary'}
+                                    label={'Salary'}
+                                    rules={[{ required: true, message: 'Salary is required' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item style={{ marginTop: '25px' }}
+                                    name={'description'}
+                                    label={'Job Description'}
+                                    rules={[{ required: true, message: 'Job Description is required' }]}>
                                     <Input.TextArea rows={3} />
                                 </Form.Item>
                                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
@@ -95,7 +121,7 @@ const Job: React.FC<JobProps> = ({
                         </>
                         :
                         <>
-
+                            
                             <p className='job-text' >{job?.text}</p>
                         </>
                 }
