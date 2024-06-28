@@ -25,7 +25,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { ...data },
             }),
-            invalidatesTags: ['auth']
+            invalidatesTags: ['auth','JobSeekerProfile','CompanyProfile','Post','Jobs']
         }),
         logout: builder.mutation({
             query: () => ({
