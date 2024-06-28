@@ -113,7 +113,7 @@ const Post: React.FC<PostProps> = ({
                 width={'100%'}
                 src={post?.imageUrl ?? '/src/assets/placeholder.jpg'}
               />
-              <p className='post-text' >{post?.text}{post?.text}{post?.text}{post?.text}</p>
+              <p className='post-text' >{post?.text}</p>
             </>
         }
       </Modal>

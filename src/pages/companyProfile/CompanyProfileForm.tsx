@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useGetCompanyProfileQuery, useDeleteCompanyProfileMutation, useUpdateCompanyProfileMutation, useGetCompanyProfilesQuery } from '../../features/companyProfile/companyProfileApiSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -61,8 +61,10 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
         }
     }
 
-    const [companyImage, setCompanyImage] = useState(data?.comapny?.companyImage ?? '')
-
+    const [companyImage, setCompanyImage] = useState(currentData?.comapny?.companyImage ?? '')
+    useEffect(()=>{
+        setCompanyImage(currentData?.comapny?.companyImage ?? '')
+    },[currentData?.company?.companyImage])
     const onFinish: FormProps<CompanyProfileFieldType>['onFinish'] = async (values) => {
         try {
             const companyData = await update({

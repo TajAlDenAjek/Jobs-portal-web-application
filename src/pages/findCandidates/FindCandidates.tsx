@@ -39,7 +39,7 @@ const FindCandidates = () => {
     } else if (isSuccess) {
         content = (
             filteredCandidates?.map((profile: any, index: any) => {
-                return <Candidate key={index} profile={profile} />
+                return <Candidate key={profile?._id} profile={profile} />
             })
         )
         if (!filteredCandidates || filteredCandidates.length === 0) {

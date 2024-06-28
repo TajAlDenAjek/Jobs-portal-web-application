@@ -37,7 +37,7 @@ const FindCompanies = () => {
     } else if (isSuccess) {
         content = (
             filteredCompanies?.map((profile: any, index: any) => {
-                return <Company key={index} profile={profile} />
+                return <Company key={profile?._id} profile={profile} />
             })
         )
         if (!filteredCompanies || filteredCompanies.length === 0) {

@@ -16,7 +16,7 @@ const PostsList: React.FC<PostList> = ({
       <div className='posts-container'>
         {
           posts.map((post: any) => {
-            return <Post key={post.id} post={post} isPostOwned={isPostOwned}/>;
+            return <Post key={post._id} post={post} isPostOwned={isPostOwned}/>;
           })
         }
       </div>

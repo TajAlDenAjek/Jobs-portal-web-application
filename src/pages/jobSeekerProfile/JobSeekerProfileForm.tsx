@@ -100,8 +100,10 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
             console.error("Failed to generate PDF:", error);
         }
     };
-    const [personalImage, setPersonalImage] = useState(data?.user?.personalImage ?? '')
-
+    const [personalImage, setPersonalImage] = useState(currentData?.user?.personalImage ?? '')
+    useEffect(()=>{
+        setPersonalImage(currentData?.user?.personalImage ?? '')
+    },[currentData?.user?.personalImage ])
     const [skills, setSkills] = useState([]);
     const [education, setEducation] = useState([]);
     const [workExperience, setWorkExperience] = useState([]);
