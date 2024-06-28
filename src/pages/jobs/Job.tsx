@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { message, Card, Modal, Form, Input, Button,Radio } from 'antd'
+import { message, Card, Modal, Form, Input, Button, Radio } from 'antd'
 import { useUpdateJobMutation, useDeleteJObMutation } from '../../features/job/jobApiSlice'
 
 interface JobProps {
@@ -53,8 +53,13 @@ const Job: React.FC<JobProps> = ({
                 onClick={showModal}
             >
 
-                <p className='job-text'
-                >{job?.text}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <p className='job-text' >{job?.jobTitle}</p>
+                    <p className='job-text' >{job?.yearsOfExperience} years</p>
+                    <p className='job-text' >Job Type {job?.workPosition}</p>
+                    <p className='job-text' >Salary {job?.salary}</p>
+                    <p className='job-text' >{job?.description}</p>
+                </div>
             </Card>
             <Modal
                 width={600}
@@ -91,7 +96,7 @@ const Job: React.FC<JobProps> = ({
                                     name={'yearsOfExperience'}
                                     label={'Years Of Experince'}
                                     rules={[{ required: true, message: 'Years of Experince is required' }]}>
-                                    <Input />
+                                    <Input type='number'/>
                                 </Form.Item>
                                 <Form.Item label="Work Type" name={"workPosition"}>
                                     <Radio.Group>
@@ -105,7 +110,7 @@ const Job: React.FC<JobProps> = ({
                                     name={'salary'}
                                     label={'Salary'}
                                     rules={[{ required: true, message: 'Salary is required' }]}>
-                                    <Input />
+                                    <Input type='number'/>
                                 </Form.Item>
                                 <Form.Item style={{ marginTop: '25px' }}
                                     name={'description'}
@@ -121,8 +126,13 @@ const Job: React.FC<JobProps> = ({
                         </>
                         :
                         <>
-                            
-                            <p className='job-text' >{job?.text}</p>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                <p className='job-text' >{job?.jobTitle}</p>
+                                <p className='job-text' >{job?.yearsOfExperience} years</p>
+                                <p className='job-text' >Job Type {job?.workPosition}</p>
+                                <p className='job-text' >Salary {job?.salary}</p>
+                                <p className='job-text' >{job?.description}</p>
+                            </div>
                         </>
                 }
             </Modal>
