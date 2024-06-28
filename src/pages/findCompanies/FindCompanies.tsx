@@ -17,7 +17,9 @@ const FindCompanies = () => {
     } = useGetCompanyProfilesQuery({})
 
     const [filteredCompanies, setFilteredCompanies] = useState(currentData?.companies)
-
+    useEffect(()=>{
+        setFilteredCompanies(currentData?.companies)
+    },[currentData?.companies])
     useEffect(() => {
         if (searchValue) {
             setFilteredCompanies(currentData?.companies?.filter((company: any) => {

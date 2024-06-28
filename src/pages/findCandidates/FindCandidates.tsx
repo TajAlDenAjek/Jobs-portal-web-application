@@ -5,6 +5,7 @@ import {Spin,Empty} from 'antd'
 
 import Candidate from './Candidate'
 import './styles.scss'
+import { current } from '@reduxjs/toolkit'
 const FindCandidates = () => {
     const [searchValue, setSearchValue] = useState('')
     const {
@@ -16,6 +17,10 @@ const FindCandidates = () => {
         error
     } = useGetProfilesQuery({})
     const [filteredCandidates,setFilteredCandidates]=useState(currentData?.users)
+
+    useEffect(()=>{
+        setFilteredCandidates(currentData?.users)
+    },[currentData?.users])
     useEffect(() => {
         if (searchValue) {
             setFilteredCandidates(currentData?.users?.filter((user: any) => {
