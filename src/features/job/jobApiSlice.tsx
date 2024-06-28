@@ -27,6 +27,17 @@ export const JobApiSlice = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['Jobs']
         }),
+        applyOnAJob: builder.mutation({
+            query: data => {
+                return {
+                    url: `/auth/application/addApplication/${data?.id}`,
+                    method: 'POST',
+                    body: data?.data,
+                    formData: true,
+                };
+            },
+            invalidatesTags: ['Jobs']
+        }),
         createJob: builder.mutation({
             query: data => {
                 return {
@@ -55,6 +66,7 @@ export const JobApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetJobsQuery,
     useGetUserJobsQuery,
+    useApplyOnAJobMutation,
     useGetJobQuery,
     useUpdateJobMutation,
     useCreateJobMutation,

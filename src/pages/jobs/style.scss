@@ -40,15 +40,7 @@
                 font-family: 'Times New Roman', Times, serif;
                 padding: 5px;
             }
-            .job-text-applied{
-                color: #00FF00;
-                color:white;
-                font-size: medium;
-                font-weight: bolder;
 
-                font-family: 'Times New Roman', Times, serif;
-                padding: 5px;
-            }
         }
         .job-card:hover{
             cursor: pointer;
@@ -62,4 +54,16 @@
             
         }
     }
+}
+.job-text-applied{
+    background-color: #00FF00;
+    width: fit-content;
+    align-self: center;
+    border-radius: 5px;
+    color:white;
+    font-size: medium;
+    font-weight: bolder;
+
+    font-family: 'Times New Roman', Times, serif;
+    padding: 5px;
 }

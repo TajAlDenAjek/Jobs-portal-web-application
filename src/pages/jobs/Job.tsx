@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { message, Card, Modal, Form, Input, Button, Image, Radio } from 'antd'
-import { useUpdateJobMutation, useDeleteJObMutation } from '../../features/job/jobApiSlice'
-
+import { useUpdateJobMutation, useDeleteJObMutation, useApplyOnAJobMutation } from '../../features/job/jobApiSlice'
+import FileUploader from '../../componenets/fileUploader/fileUploader'
 interface JobProps {
     job: any,
     isJobOwned?: boolean,
@@ -16,6 +16,7 @@ const Job: React.FC<JobProps> = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [updateJob, { isLoading }] = useUpdateJobMutation();
     const [deleteJob, { }] = useDeleteJObMutation();
+    const [applyOnAJob, { isLoading: isApplying }] = useApplyOnAJobMutation()
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -45,6 +46,27 @@ const Job: React.FC<JobProps> = ({
             message.success('Job update Successful')
         } catch (error: any) {
             message.error('Something went wrong')
+        }
+    }
+    const [cvFileName, setCvFileName] = useState('')
+    const applyOnJob = async (values) => {
+        if (cvFileName === '') {
+            message.error('Please upload your CV')
+            return
+        }
+        else {
+            try {
+                const applicationData = await applyOnAJob({
+                    id: job?._id,
+                    data: {
+                        cvFileName: cvFileName,
+                    }
+                }).unwrap()
+                setIsModalOpen(false)
+                message.success('Job update Successful')
+            } catch (error: any) {
+                message.error('Something went wrong')
+            }
         }
     }
 
@@ -182,14 +204,27 @@ const Job: React.FC<JobProps> = ({
                                                 ?
                                                 <p className='job-text-applied'>Applied</p>
                                                 :
-                                                <Button>Apply now </Button>
+                                                <Form
+                                                    labelCol={{ span: 24 }}
+                                                    wrapperCol={{ span: 24 }}
+                                                    onFinish={applyOnJob}
+                                                    initialValues={job}
+                                                >
+                                                    <Form.Item style={{ marginTop: '25px' }}  label={'Upload your cv'}>
+                                                        <FileUploader setUrl={setCvFileName} url={cvFileName} isPdf={true} />
+
+                                                    </Form.Item>
+                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                                                        <Button htmlType='submit' type="primary" disabled={isApplying}>{isApplying ? "Applying..." : "Apply Now"}</Button>
+                                                    </div>
+                                                </Form>
                                         }
                                     </>
                                 }
                             </div>
                         </>
                 }
-            </Modal>
+            </Modal >
         </>
     )
 }
