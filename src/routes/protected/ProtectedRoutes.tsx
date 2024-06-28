@@ -5,7 +5,7 @@ import JobSeekerProfile from "../../pages/jobSeekerProfile/JobSeekerProfile";
 import CompanyProfile from "../../pages/companyProfile/CompanyProfile";
 import FindCandidates from "../../pages/findCandidates/FindCandidates";
 import FindCompanies from "../../pages/findCompanies/FindCompanies";
-
+import JobsPage from "../../pages/jobs/JobsPage";
 export const adminRoutes:RouteObject[] = [
     {
         path: '/manage-job-seekers-accounts',
@@ -45,7 +45,7 @@ export const jobSeekerRoutes:RouteObject[] = [
     },
     {
         path: '/jobs',
-        element: <div>Jobs</div>
+        element:<JobsPage/>
     },
     {
         path: '/',
@@ -69,7 +69,7 @@ export const companyRoutes:RouteObject[] = [
     },
     {
         path: '/manage-jobs',
-        element: <div>hi I am company jobs</div>
+        element: <JobsPage/>
     },
     {
         path: '/manage-articles',
