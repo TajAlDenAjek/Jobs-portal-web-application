@@ -103,7 +103,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
     const [personalImage, setPersonalImage] = useState(currentData?.user?.personalImage ?? '')
     useEffect(()=>{
         setPersonalImage(currentData?.user?.personalImage ?? '')
-    },[currentData?.user?.personalImage ])
+    },[currentData?.user?.personalImage])
     const [skills, setSkills] = useState([]);
     const [education, setEducation] = useState([]);
     const [workExperience, setWorkExperience] = useState([]);
@@ -140,7 +140,7 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
 
             >
                 <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
-                    <FileUploader setUrl={setPersonalImage} url={personalImage} />
+                    <FileUploader setUrl={setPersonalImage} url={data?.user?.personalImage} />
                 </Form.Item>
                 <Upload />
                 <Form.Item<jobSeekerProfileFieldType> name="firstName" label="First Name"
