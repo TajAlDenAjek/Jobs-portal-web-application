@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-import { message, Card, Modal, Form, Input, Button, Radio } from 'antd'
+import { message, Card, Modal, Form, Input, Button, Image, Radio } from 'antd'
 import { useUpdateJobMutation, useDeleteJObMutation } from '../../features/job/jobApiSlice'
 
 interface JobProps {
     job: any,
     isJobOwned?: boolean,
+    isUserView?: boolean
 }
 
 const Job: React.FC<JobProps> = ({
     job,
-    isJobOwned
+    isJobOwned,
+    isUserView
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [updateJob, { isLoading }] = useUpdateJobMutation();
@@ -54,11 +56,37 @@ const Job: React.FC<JobProps> = ({
             >
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {
+                        isUserView &&
+                        <>
+                            <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+                                <Image
+                                    preview={false}
+                                    width={'40px'}
+                                    style={{ borderRadius: '50%' }}
+                                    src={job?.companyImage ?? '/src/assets/avatar.jfif'}
+                                />
+                                <p className='job-text'>{job?.companyName}</p>
+                            </div>
+                        </>
+                    }
                     <p className='job-text' >{job?.jobTitle}</p>
                     <p className='job-text' >{job?.yearsOfExperience} years</p>
                     <p className='job-text' >Job Type {job?.workPosition}</p>
                     <p className='job-text' >Salary {job?.salary}</p>
                     <p className='job-text' >{job?.description}</p>
+                    {
+                        isUserView &&
+                        <>
+                            {
+                                job?.isApplicated
+                                    ?
+                                    <p className='job-text-applied'>Applied</p>
+                                    :
+                                    <></>
+                            }
+                        </>
+                    }
                 </div>
             </Card>
             <Modal
@@ -96,7 +124,7 @@ const Job: React.FC<JobProps> = ({
                                     name={'yearsOfExperience'}
                                     label={'Years Of Experince'}
                                     rules={[{ required: true, message: 'Years of Experince is required' }]}>
-                                    <Input type='number'/>
+                                    <Input type='number' />
                                 </Form.Item>
                                 <Form.Item label="Work Type" name={"workPosition"}>
                                     <Radio.Group>
@@ -110,7 +138,7 @@ const Job: React.FC<JobProps> = ({
                                     name={'salary'}
                                     label={'Salary'}
                                     rules={[{ required: true, message: 'Salary is required' }]}>
-                                    <Input type='number'/>
+                                    <Input type='number' />
                                 </Form.Item>
                                 <Form.Item style={{ marginTop: '25px' }}
                                     name={'description'}
@@ -127,11 +155,37 @@ const Job: React.FC<JobProps> = ({
                         :
                         <>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                {
+                                    isUserView &&
+                                    <>
+                                        <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+                                            <Image
+                                                preview={false}
+                                                width={'40px'}
+                                                style={{ borderRadius: '50%' }}
+                                                src={job?.companyImage ?? '/src/assets/avatar.jfif'}
+                                            />
+                                            <p className='job-text'>{job?.companyName}</p>
+                                        </div>
+                                    </>
+                                }
                                 <p className='job-text' >{job?.jobTitle}</p>
                                 <p className='job-text' >{job?.yearsOfExperience} years</p>
                                 <p className='job-text' >Job Type {job?.workPosition}</p>
                                 <p className='job-text' >Salary {job?.salary}</p>
                                 <p className='job-text' >{job?.description}</p>
+                                {
+                                    isUserView &&
+                                    <>
+                                        {
+                                            job?.isApplicated
+                                                ?
+                                                <p className='job-text-applied'>Applied</p>
+                                                :
+                                                <Button>Apply now </Button>
+                                        }
+                                    </>
+                                }
                             </div>
                         </>
                 }
