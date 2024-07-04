@@ -2,25 +2,19 @@ import type { TabsProps } from 'antd'
 import { Tabs } from 'antd'
 import CurrenetUserArticles from './CurrenetUserArticles';
 import NewArticles from './NewArticles';
-import './style.scss'
+import { useSelector } from "react-redux"
 
-const items: TabsProps['items'] = [
-  {
-    key: '1',
-    label: 'Articles',
-    children: <NewArticles/>,
-  },
-  {
-    key: '2',
-    label: 'My Articles',
-    children: <CurrenetUserArticles />,
-  },
-];
+import './style.scss'
+import { selectCurrentPermission } from '../../features/auth/authSlice';
+import { Permissions } from '../../features/auth/authSlice';
+
 
 const ArticlesPage = () => {
+  const permission: Permissions | null = useSelector(selectCurrentPermission)
+  const content = permission === "company" ? <CurrenetUserArticles /> : <NewArticles />
   return (
     <div className='articles-page'>
-      <Tabs defaultActiveKey="1" items={items}  />
+      {content}
     </div>
   )
 }
