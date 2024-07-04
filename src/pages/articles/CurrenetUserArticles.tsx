@@ -14,9 +14,9 @@ const CurrenetUserArticles = () => {
     content = <Spin />
   } else if (isSuccess) {
     content = (
-      <ArticlesList articles={articles?.article} isArticleOwned={true} />
+      <ArticlesList articles={articles?.articles} isArticleOwned={true} />
     )
-    if (!articles?.article || articles?.article?.length === 0) {
+    if (!articles?.articles || articles?.articles?.length === 0) {
       content = <Empty />
     }
   }

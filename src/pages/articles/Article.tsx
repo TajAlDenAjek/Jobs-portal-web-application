@@ -3,8 +3,7 @@ import { Flex, message, Card, Image, Modal, Form, Upload, Input, Button } from '
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { GetProp, UploadProps, } from 'antd';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
-import { useUpdatePostMutation, useDeletePostMutation } from '../../features/post/postApiSlice';
-
+import { useDeleteArticleMutation, useUpdateArticleMutation } from '../../features/articles/articlesApiSlice';
 interface ArticleProps {
   article: any,
   isArticleOwned?: boolean,
@@ -15,8 +14,8 @@ const Article: React.FC<ArticleProps> = ({
   isArticleOwned
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updatePost, { isLoading }] = useUpdatePostMutation();
-  const [deletePost, {  }] = useDeletePostMutation();
+  const [updateArticle, { isLoading }] = useUpdateArticleMutation();
+  const [deleteArticle, { }] = useDeleteArticleMutation();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -26,7 +25,7 @@ const Article: React.FC<ArticleProps> = ({
   };
   const handleDelete = async () => {
     try {
-      await deletePost(article?._id).unwrap()
+      await deleteArticle(article?._id).unwrap()
       message.success('article Deleted ')
       setIsModalOpen(false);
     } catch (error: any) {
@@ -34,14 +33,12 @@ const Article: React.FC<ArticleProps> = ({
     }
   }
 
-  const [imageUrl, setImageUrl] = useState<string>(article?.imageUrl ?? '');
   const onFinish = async (values) => {
     try {
-      const postData = await updatePost({
+      const articleData = await updateArticle({
         id: article?._id,
         data: {
           ...values,
-          imageUrl: imageUrl
         }
       }).unwrap()
       setIsModalOpen(false)
@@ -57,12 +54,15 @@ const Article: React.FC<ArticleProps> = ({
         className='article-card'
         onClick={showModal}
       >
-        <Image
-          preview={false}
-          className='article-image'
-          width={'100%'}
-          src={article?.imageUrl ?? '/src/assets/placeholder.jpg'}
-        />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', padding: '10px' }}>
+          <Image
+            preview={false}
+            width={'40px'}
+            style={{ borderRadius: '50%' }}
+            src={article?.companyImage ?? '/src/assets/avatar.jfif'}
+          />
+          <p className='article-text'>{article?.companyName}</p>
+        </div>
         <p className='article-text'
         >{article?.text}</p>
       </Card>
@@ -91,9 +91,6 @@ const Article: React.FC<ArticleProps> = ({
                 onFinish={onFinish}
                 initialValues={article}
               >
-                <Form.Item style={{ marginTop: '25px' }} label="article Image">
-                  <FileUploader url={imageUrl} setUrl={setImageUrl} />
-                </Form.Item>
                 <Form.Item style={{ marginTop: '25px' }}
                   name={'text'}
                   label={'Article text'}
@@ -108,12 +105,17 @@ const Article: React.FC<ArticleProps> = ({
             </>
             :
             <>
-              <Image
-                className='article-image'
-                width={'100%'}
-                src={article?.imageUrl ?? '/src/assets/placeholder.jpg'}
-              />
-              <p className='article-text' >{article?.text}</p>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', padding: '10px' }}>
+                <Image
+                  preview={false}
+                  width={'40px'}
+                  style={{ borderRadius: '50%' }}
+                  src={article?.companyImage ?? '/src/assets/avatar.jfif'}
+                />
+                <p className='article-text'>{article?.companyName}</p>
+              </div>
+              <p className='article-text'
+              >{article?.text}</p>
             </>
         }
       </Modal>
