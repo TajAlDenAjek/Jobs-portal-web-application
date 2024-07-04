@@ -76,17 +76,40 @@
                 font-size: large;
                 font-family: 'Times New Roman', Times, serif;
                 padding: 5px;
+                
+                // font-weight: bold;
+            }
+            svg:hover{
+                cursor: pointer;
+                color:black;
+            }
+            .app-status{
+                font-weight: bolder;
+                margin: 20px 0px;
+                padding: 5px;
+                border-radius: 5px ;
+                &.Waiting{
+                    color:blue;
+                    background-color: lightblue;
+                }
+                &.Accepted{
+                    color:green;
+                    background-color: lightgreen;
+                }
+                &.Rejected{
+                    color:red;
+                    background-color: lightcoral;
+                }
             }
         }
     
         .app-card:hover {
-            cursor: pointer;
             border: 1px solid #999;
-            background-color: #999;
-            transform: skewX(-1deg);
+            // background-color: #999;
+            // transform: skewX(-1deg);
             box-shadow: 3px black;
             // margin-top: -20px;
-            transition: all 0.5s ease-in-out;
+            // transition: all 0.5s ease-in-out;
         }
     }
 }

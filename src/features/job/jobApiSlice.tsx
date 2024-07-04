@@ -12,6 +12,7 @@ export const JobApiSlice = apiSlice.injectEndpoints({
             query: () => `/auth/application/addApplication/getjobs/getstatus`,
             providesTags: ['Jobs']
         }),
+
         getUserJobsApplications: builder.query({
             query: () => `/auth/application/addApplication/getjobs/getuserapps`,
             providesTags: ['Jobs']
@@ -62,7 +63,15 @@ export const JobApiSlice = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['Jobs']
         }),
-
+        cancelApplication:builder.mutation({
+            query:id=>{
+                return{
+                    url:`/auth/application/addApplication/getjobanddeleted/${id}`,
+                    method:'DELETE',
+                }
+            },
+            invalidatesTags: ['Jobs']
+        })
     })
 })
 
@@ -75,5 +84,6 @@ export const {
     useGetJobQuery,
     useUpdateJobMutation,
     useCreateJobMutation,
-    useDeleteJObMutation
+    useDeleteJObMutation,
+    useCancelApplicationMutation,
 } = JobApiSlice;
