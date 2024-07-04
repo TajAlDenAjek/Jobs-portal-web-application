@@ -69,9 +69,9 @@ const JobSeekersTable = () => {
 
     let content = <Empty />
     if (isLoading) {
-        content = <AdminTable columns={columns} data={currentData?.users} isLoading={isLoading} tableTitle={"Job Seekers Admin Table"} />
+        content = <AdminTable columns={columns} data={currentData?.users} isLoading={isLoading} tableTitle={"Job Seekers Table"} />
     } else if (isSuccess) {
-        content = <AdminTable columns={columns} data={currentData?.users} tableTitle={"Job Seekers Admin Table"} />
+        content = <AdminTable columns={columns} data={currentData?.users} tableTitle={"Job Seekers Table"} />
     } else if (isError) {
         content = <>{error}</>
     }
