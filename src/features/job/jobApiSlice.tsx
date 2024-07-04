@@ -12,7 +12,10 @@ export const JobApiSlice = apiSlice.injectEndpoints({
             query: () => `/auth/application/addApplication/getjobs/getstatus`,
             providesTags: ['Jobs']
         }),
-
+        getApplicationsOnJob:builder.query({
+            query: (id)=> `/auth/company/job/applications/jobApplications/${id}`,
+            providesTags: ['Jobs'] 
+        }),
         getUserJobsApplications: builder.query({
             query: () => `/auth/application/addApplication/getjobs/getuserapps`,
             providesTags: ['Jobs']
@@ -25,6 +28,17 @@ export const JobApiSlice = apiSlice.injectEndpoints({
             query: data => {
                 return {
                     url: `/auth/company/job/job/modifyjob/${data?.id}`,
+                    method: 'PUT',
+                    body: data?.data,
+                    formData: true,
+                };
+            },
+            invalidatesTags: ['Jobs']
+        }),
+        updateApplicationStatus:builder.mutation({
+            query: data => {
+                return {
+                    url: `/auth/company/job/applications/jobApplications/modify/${data?.id}`,
                     method: 'PUT',
                     body: data?.data,
                     formData: true,
@@ -86,4 +100,6 @@ export const {
     useCreateJobMutation,
     useDeleteJObMutation,
     useCancelApplicationMutation,
+    useGetApplicationsOnJobQuery,
+    useUpdateApplicationStatusMutation
 } = JobApiSlice;
