@@ -7,20 +7,22 @@ import FindCandidates from "../../pages/findCandidates/FindCandidates";
 import FindCompanies from "../../pages/findCompanies/FindCompanies";
 import JobsPage from "../../pages/jobs/JobsPage";
 import ArticlesPage from "../../pages/articles/ArticlesPage";
+import CompanyTable from "../../pages/adminPages/CompnayTable";
+import JobSeekersTable from "../../pages/adminPages/JobSeekersTable";
 
 export const adminRoutes:RouteObject[] = [
     {
         path: '/manage-job-seekers-accounts',
-        element: <div>hi I admin job seekers management dashboard</div>
+        element: <JobSeekersTable/>
     },
     {
         path: '/manage-company-accounts',
-        element: <div>hi I admin companies management dashboard</div>
+        element: <CompanyTable/>
     },
-    {
-        path: '/manage-companies-articles-accounts',
-        element: <div>hi I admin articles management dashboard</div>
-    },
+    // {
+    //     path: '/manage-companies-articles-accounts',
+    //     element: <div>hi I admin articles management dashboard</div>
+    // },
     {
         path: '/',
         element: <Home/>

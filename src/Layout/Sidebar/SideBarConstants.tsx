@@ -21,12 +21,12 @@ export const adminPages: SideBarPage[] = [
         label: `Companies`,
         url: '/manage-company-accounts'
     },
-    {
-        key: '3',
-        icon: <FileTextOutlined />,
-        label: `Companies`,
-        url: '/manage-companies-articles-accounts'
-    },
+    // {
+    //     key: '3',
+    //     icon: <FileTextOutlined />,
+    //     label: `Articles`,
+    //     url: '/manage-companies-articles-accounts'
+    // },
 ]
 
 export const jobSeekerPages: SideBarPage[] = [
