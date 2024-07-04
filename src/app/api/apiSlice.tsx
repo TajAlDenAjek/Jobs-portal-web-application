@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials, logOut } from '../../features/auth/authSlice'
-let SERVER_SIDE = import.meta.env.VITE_REACT_API_KEY + '/api'
+let SERVER_SIDE = import.meta.env.VITE_REACT_API_KEY 
 
 
 type RefreshResponse = {
@@ -14,9 +14,10 @@ type RefreshResponse = {
 // configure for cookies and tokens
 const baseQuery = fetchBaseQuery({
     baseUrl: SERVER_SIDE,
-    credentials: 'include',
-    
+    // credentials: 'include',
+    // credentials: "same-origin", 
     prepareHeaders: (headers, { getState}: any) => {
+        headers.set('Content-Type', 'application/json');
         const token = getState().auth.token
         if (token) {
             headers.set('authorization', `Bearer ${token}`)
@@ -31,19 +32,10 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     let result = await baseQuery(args, api, extraOptions)
     // your token maybe expired 
     if (result?.error?.status === 401) {
-        // sending refresh request
-        const refreshResult: RefreshResponse = await baseQuery('/auth/refresh', api, extraOptions)
-        // is my token still alive ? 
-        if (refreshResult?.data) {
-            // if yes then save it 
-            const { id, username } = refreshResult.data.user
-            //store new token
-            api.dispatch(setCredentials({ ...refreshResult.data, id, username }))
-            // retry the original request with the new alive token
-            result = await baseQuery(args, api, extraOptions)
-        }
-        else {
-            // if no then let me out I don't belong to this website anymore
+        api.dispatch(logOut())
+        // window.location.replace('/login')
+    } else if (result?.error?.status === 500){
+        if(result?.error?.data?.message?.message==='jwt expired'){
             api.dispatch(logOut())
         }
     }
@@ -53,7 +45,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 // Api Slice 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['auth'],
+    tagTypes: ['auth','JobSeekerProfile','CompanyProfile','Post','Jobs','Article'],
     endpoints: () => ({}),
 })
 

@@ -12,6 +12,9 @@ const Content = () => {
                     minHeight: 360,
                     background: colorBgContainer,
                     borderRadius: borderRadiusLG,
+                    height: '100%',
+                    width:'100%',
+                    overflowY:'hidden'
                 }}
             >
                 <Outlet/>

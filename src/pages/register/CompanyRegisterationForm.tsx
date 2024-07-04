@@ -1,33 +1,41 @@
 import React from 'react'
 import type { FormProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { Form, Input, Button } from 'antd'
-
-
+import { message, Form, Input, Button } from 'antd'
+import { useCompanyRegisterMutation } from '../../features/auth/authApiSlice'
 type CompanyRegisterFieldType = {
-    companyName?:string
+    name?: string
     email?: string,
     password?: string,
 }
 const CompanyRegisterationForm = () => {
+    const [register, { isLoading }] = useCompanyRegisterMutation()
     const navigate = useNavigate()
-    const onFinish: FormProps<CompanyRegisterFieldType>['onFinish'] = (values) => {
-        console.log('values', values)
-    }
-    const onFinishFailed: FormProps<CompanyRegisterFieldType>['onFinishFailed'] = (error) => {
-        console.log('error', error)
+    const [form] = Form.useForm();
+
+    const onFinish: FormProps<CompanyRegisterFieldType>['onFinish'] = async (values) => {
+        try {
+            const companyData = await register({ ...values, permission: "company" }).unwrap()
+            form.resetFields()
+            message.success('Registration Successful')
+            navigate('/login')
+        } catch (error: any) {
+            form.setFields([{
+                name: 'email',
+                errors: ['email is already in use']
+            }])
+        }
     }
     return (
         <Form
             labelCol={{ span: 24 }}
             wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
-            onFinishFailed={onFinishFailed}
             autoComplete='off'
             onFinish={onFinish}
-
+            form={form}
         >
-            <Form.Item<CompanyRegisterFieldType> name="companyName" label="Company Name"
+            <Form.Item<CompanyRegisterFieldType> name="name" label="Company Name"
                 rules={[{ required: true, message: 'Please Enter your Company name' }]}
             >
                 <Input type='text' />
@@ -38,12 +46,12 @@ const CompanyRegisterationForm = () => {
                 <Input type='email' />
             </Form.Item>
             <Form.Item<CompanyRegisterFieldType> name="password" label="Password"
-                rules={[{ required: true, message: 'Please Enter your password' }]}
+                rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
             >
                 <Input.Password />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type='primary' htmlType='submit'>Sign up</Button>
+                <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Signing up..." : "Sign up"}</Button>
             </Form.Item>
         </Form>
     )

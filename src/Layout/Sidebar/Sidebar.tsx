@@ -1,34 +1,40 @@
 import React from 'react'
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu ,theme} from 'antd'
+import { Layout, Menu, theme } from 'antd'
 const { Sider } = Layout
-
-// our pages here 
-const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-    (icon, index) => ({
-        key: String(index + 1),
-        icon: React.createElement(icon),
-        label: `nav ${index + 1}`,
-    }),
-);
+import { useSelector } from "react-redux"
+import { Permissions } from '../../features/auth/authSlice';
+import { selectCurrentPermission } from '../../features/auth/authSlice';
+import { adminPages, companyPages, jobSeekerPages } from './SideBarConstants';
+import { useNavigate } from 'react-router';
+import './style.scss'
 const Sidebar = () => {
+    const navigate = useNavigate()
+    const permission: Permissions | null = useSelector(selectCurrentPermission)
+    const items = permission === 'admin' ? adminPages : permission === "company" ? companyPages : jobSeekerPages
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     return (
         <Sider
-            
+
             breakpoint="lg"
             collapsedWidth="0"
             onBreakpoint={(broken) => {
-                console.log(broken);
             }}
             onCollapse={(collapsed, type) => {
-                console.log(collapsed, type);
             }}
+            className='side-bar-container'
         >
-            {/* <div className="demo-logo-vertical" /> */}
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+            <div className="demo-logo-vertical" >Career App</div>
+            <Menu
+                // selectedKeys={}
+                theme="dark"
+                mode="inline"
+                items={items}
+                onClick={(e) => {
+                    navigate(items[Number(e.key) - 1]?.url)
+                }}
+            />
         </Sider>
     )
 }

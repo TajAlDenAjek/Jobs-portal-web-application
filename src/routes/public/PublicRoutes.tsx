@@ -1,6 +1,7 @@
 import type { RouteObject } from "react-router-dom";
 import Login from "../../pages/login/Login";
 import Register from "../../pages/register/Register";
+import NotFound404Page from "../../pages/systemPages/NotFound404/NotFound404Page";
 
 export const publicPages:RouteObject[] = [
     {
@@ -15,6 +16,6 @@ export const publicPages:RouteObject[] = [
 export const appPages:RouteObject[] = [
     {
         path:'*',
-        element:<div>not found</div>
+        element:<NotFound404Page/>
     }
 ]
