@@ -12,6 +12,10 @@ export const JobApiSlice = apiSlice.injectEndpoints({
             query: () => `/auth/application/addApplication/getjobs/getstatus`,
             providesTags: ['Jobs']
         }),
+        getUserJobsApplications: builder.query({
+            query: () => `/auth/application/addApplication/getjobs/getuserapps`,
+            providesTags: ['Jobs']
+        }),
         getJob: builder.query({
             query: (id)=> `/auth/company/job/job/jobOfCompany/${id}`,
             providesTags: ['Jobs']
@@ -66,6 +70,7 @@ export const JobApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetJobsQuery,
     useGetUserJobsQuery,
+    useGetUserJobsApplicationsQuery,
     useApplyOnAJobMutation,
     useGetJobQuery,
     useUpdateJobMutation,

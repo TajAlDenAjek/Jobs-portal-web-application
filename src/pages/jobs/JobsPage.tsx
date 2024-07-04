@@ -6,6 +6,7 @@ import { useSelector } from "react-redux"
 import { selectCurrentPermission } from '../../features/auth/authSlice';
 import { Permissions } from '../../features/auth/authSlice';
 import CurrentUserJobs from './CurrentUserJobs';
+import ShowUserApplications from './ShowUserApplications';
 import './style.scss'
 
 
@@ -31,7 +32,7 @@ const JobSeekerItems: TabsProps['items'] = [
     {
         key: '2',
         label: 'Show applications status',
-        children: <CurrentCompanyJobs />,
+        children: <ShowUserApplications />,
     },
 ];
 const JobsPage = () => {
