@@ -4,11 +4,11 @@ import { Flex, message, Card, Image, Modal, Form, Upload, Input, Button } from '
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { GetProp, UploadProps, } from 'antd';
 import FileUploader from '../../componenets/fileUploader/fileUploader';
-import { useCreatePostMutation, useGetUserPostsQuery } from '../../features/post/postApiSlice';
 import { Empty, Spin } from 'antd';
+import { useCreateArticleMutation,useGetArticlesQuery } from '../../features/articles/articlesApiSlice';
 
 const CurrenetUserArticles = () => {
-  const { data: articles, isLoading: isArticlesLoading, isSuccess, isError } = useGetUserPostsQuery({})
+  const { data: articles, isLoading: isArticlesLoading, isSuccess, isError } = useGetArticlesQuery({})
   let content = <Empty />
   if (isArticlesLoading) {
     content = <Spin />
@@ -20,7 +20,7 @@ const CurrenetUserArticles = () => {
       content = <Empty />
     }
   }
-  const [createPost, { isLoading }] = useCreatePostMutation();
+  const [createArticle, { isLoading }] = useCreateArticleMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,14 +28,12 @@ const CurrenetUserArticles = () => {
     setIsModalOpen(true);
   };
 
-  const [imageUrl, setImageUrl] = useState<string>();
 
 
   const onFinish = async (values) => {
     try {
-      const ArticleData = await createPost({
+      const ArticleData = await createArticle({
         ...values,
-        imageUrl: imageUrl
       }).unwrap()
       setIsModalOpen(false)
       message.success('Article Created ')
@@ -73,9 +71,6 @@ const CurrenetUserArticles = () => {
             wrapperCol={{ span: 24 }}
             onFinish={onFinish}
           >
-            <Form.Item style={{ marginTop: '25px' }} label="Article Image">
-              <FileUploader url={imageUrl} setUrl={setImageUrl} />
-            </Form.Item>
             <Form.Item style={{ marginTop: '25px' }}
               name={'text'}
               label={'Article text'}

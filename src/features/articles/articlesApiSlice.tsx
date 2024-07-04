@@ -5,7 +5,7 @@ import { apiSlice } from "../../app/api/apiSlice";
 export const ArticleApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getArticles: builder.query({
-            query: () => `/auth/Article/allArticles`,
+            query: () => `/auth/Article/Article/getArticles`,
             providesTags: ['Article']
         }),
         getUserArticles: builder.query({
@@ -13,7 +13,7 @@ export const ArticleApiSlice = apiSlice.injectEndpoints({
             providesTags: ['Article']
         }),
         getArticle: builder.query({
-            query: (id)=> `/auth/Article/${id}`,
+            query: (id)=> `/auth/Article/Article/getArticle/${id}`,
             providesTags: ['Article']
         }),
         updateArticle: builder.mutation({
@@ -30,8 +30,8 @@ export const ArticleApiSlice = apiSlice.injectEndpoints({
         createArticle: builder.mutation({
             query: data => {
                 return {
-                    url: `/auth/addArticle/addArticle`,
-                    method: 'Article',
+                    url: `/auth/Article/Article/Article/createArticle`,
+                    method: 'POST',
                     body: data,
                     formData: true,
                 };
@@ -41,7 +41,7 @@ export const ArticleApiSlice = apiSlice.injectEndpoints({
         deleteArticle: builder.mutation({
             query: id => {
                 return {
-                    url: `/auth/deleteArticle/${id}`,
+                    url: `/auth/Article/Article/deleteArticle/${id}`,
                     method: 'DELETE',
                 };
             },
