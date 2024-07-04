@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { message, Card, Modal, Form, Input, Button, Image, Radio } from 'antd'
 import { useUpdateJobMutation, useDeleteJObMutation, useApplyOnAJobMutation } from '../../features/job/jobApiSlice'
 import FileUploader from '../../componenets/fileUploader/fileUploader'
+import ViewJobsApplicationsCompany from './ViewJobsApplicationsCompany'
 interface JobProps {
     job: any,
     isJobOwned?: boolean,
@@ -109,6 +110,7 @@ const Job: React.FC<JobProps> = ({
                             }
                         </>
                     }
+                    
                 </div>
             </Card>
             <Modal
@@ -196,6 +198,12 @@ const Job: React.FC<JobProps> = ({
                                 <p className='job-text' >Job Type {job?.workPosition}</p>
                                 <p className='job-text' >Salary {job?.salary}</p>
                                 <p className='job-text' >{job?.description}</p>
+                                {
+                                    !isUserView &&
+                                    <>
+                                        <ViewJobsApplicationsCompany id={job?._id}/>
+                                    </>
+                                }
                                 {
                                     isUserView &&
                                     <>

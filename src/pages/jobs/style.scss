@@ -55,62 +55,62 @@
         }
     }
 
-    .apps-container{
-        gap: 25px;
+}
+.apps-container{
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    .ant-card .ant-card-body {
+        padding: 5px !important;
         display: flex;
-        flex-direction: column;
-        .ant-card .ant-card-body {
-            padding: 5px !important;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 15px;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .app-card {
+        width: 90%;
+        background-color: whitesmoke;
+
+        .app-text {
+            color: #333;
+            font-size: large;
+            font-family: 'Times New Roman', Times, serif;
+            padding: 5px;
+            
+            // font-weight: bold;
         }
-    
-        .app-card {
-            width: 90%;
-            background-color: whitesmoke;
-    
-            .app-text {
-                color: #333;
-                font-size: large;
-                font-family: 'Times New Roman', Times, serif;
-                padding: 5px;
-                
-                // font-weight: bold;
+        svg:hover{
+            cursor: pointer;
+            color:black;
+        }
+        .app-status{
+            font-weight: bolder;
+            margin: 20px 0px;
+            padding: 5px;
+            border-radius: 5px ;
+            &.Waiting{
+                color:blue;
+                background-color: lightblue;
             }
-            svg:hover{
-                cursor: pointer;
-                color:black;
+            &.Accepted{
+                color:green;
+                background-color: lightgreen;
             }
-            .app-status{
-                font-weight: bolder;
-                margin: 20px 0px;
-                padding: 5px;
-                border-radius: 5px ;
-                &.Waiting{
-                    color:blue;
-                    background-color: lightblue;
-                }
-                &.Accepted{
-                    color:green;
-                    background-color: lightgreen;
-                }
-                &.Rejected{
-                    color:red;
-                    background-color: lightcoral;
-                }
+            &.Rejected{
+                color:red;
+                background-color: lightcoral;
             }
         }
-    
-        .app-card:hover {
-            border: 1px solid #999;
-            // background-color: #999;
-            // transform: skewX(-1deg);
-            box-shadow: 3px black;
-            // margin-top: -20px;
-            // transition: all 0.5s ease-in-out;
-        }
+    }
+
+    .app-card:hover {
+        border: 1px solid #999;
+        // background-color: #999;
+        // transform: skewX(-1deg);
+        box-shadow: 3px black;
+        // margin-top: -20px;
+        // transition: all 0.5s ease-in-out;
     }
 }
 .job-text-applied{
