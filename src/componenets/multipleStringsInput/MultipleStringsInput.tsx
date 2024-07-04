@@ -5,11 +5,13 @@ interface MultipleStringsInputProps {
     apiItems?: any
     setApiItems?: any
     placeholder?:any
+    isViewMode?:boolean
 }
 const MultipleStringsInput: React.FC<MultipleStringsInputProps> = ({
     apiItems,
     setApiItems,
     placeholder,
+    isViewMode=false
 }) => {
     const [items, setItems] = useState<any>(apiItems);
     const [itemText, setItemText] = useState<any>('');
@@ -30,18 +32,21 @@ const MultipleStringsInput: React.FC<MultipleStringsInputProps> = ({
         setApiItems(items);
     }, [items]);
     return <>
-        <Input
-            placeholder={placeholder}
-            value={itemText}
-            onChange={(e: any) => setItemText(e.target.value)}
-            onPressEnter={(e: any) => {
-                handleAddItem()
-            }}
-        />
+        {
+            !isViewMode&&
+            <Input
+                placeholder={placeholder}
+                value={itemText}
+                onChange={(e: any) => setItemText(e.target.value)}
+                onPressEnter={(e: any) => {
+                    handleAddItem()
+                }}
+            />
+        }
         {items.map((item: any): any => (
             <Tag
                 key={item}
-                closable
+                closable={!isViewMode}
                 onClose={() => handleDeleteItem(item)}
                 style={{ margin: '4px' }}
             >

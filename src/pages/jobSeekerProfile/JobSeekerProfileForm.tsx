@@ -25,7 +25,9 @@ import {
     Switch,
     TreeSelect,
     Upload,
-    Spin, Tag
+    Spin, Tag,
+    Typography,
+    Image
 
 } from 'antd'
 
@@ -57,7 +59,7 @@ type jobSeekerProfileFieldType = {
     education?: any,
     workExperience?: any,
     skills?: any,
-    Specialization?:string
+    Specialization?: string
 }
 
 
@@ -101,9 +103,9 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
         }
     };
     const [personalImage, setPersonalImage] = useState(currentData?.user?.personalImage ?? '')
-    useEffect(()=>{
+    useEffect(() => {
         setPersonalImage(currentData?.user?.personalImage ?? '')
-    },[currentData?.user?.personalImage])
+    }, [currentData?.user?.personalImage])
     const [skills, setSkills] = useState([]);
     const [education, setEducation] = useState([]);
     const [workExperience, setWorkExperience] = useState([]);
@@ -139,78 +141,135 @@ const JobSeekerProfileForm: React.FC<jobSeekerProfileProps> = ({
                 onKeyDown={(e) => e.key == "Enter" ? e.preventDefault() : ''}
 
             >
-                <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
-                    <FileUploader setUrl={setPersonalImage} url={data?.user?.personalImage} />
-                </Form.Item>
-                <Upload />
-                <Form.Item<jobSeekerProfileFieldType> name="firstName" label="First Name"
-                    rules={[{ required: true, message: 'Please Enter your First name' }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="lastName" label="Last Name"
-                    rules={[{ required: true, message: 'Please Enter your Last name' }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="email" label="Email"
-                    rules={[{ required: true, message: 'Please Enter your email' }]}
-                >
-                    <Input type='email' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="password" label="Password"
-                    rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="Specialization" label="Specialization"
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType>
-                    name="descriptionOrSummary"
-                    label="Summary"
-                    rules={[{ required: true, message: 'Please input your Summary!' }]}
-                >
-                    <Input.TextArea rows={4} />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> label="Gender" name={"gender"}>
-                    <Radio.Group>
-                        <Radio value="male"> Male </Radio>
-                        <Radio value="female"> Female </Radio>
-                    </Radio.Group>
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="phoneNumber" label="Phone Numbe"
-                    rules={[{ required: false, message: 'Enter a vaild phone number', min: 10, max: 10 }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="country" label="Country"
-                    rules={[{ required: false, message: 'Enter a vaild country ' }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> name="birthDate" label="Birth Date"
-                    rules={[{ validator: validateDate, }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> label="Skills">
-                    <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"} />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> label="Education">
-                    <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"} />
-                </Form.Item>
-                <Form.Item<jobSeekerProfileFieldType> label="Work Experience">
-                    <MultipleOjectsInput1 form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"} />
-                </Form.Item>
+                {
+                    isDisabled &&
+                    <>
+                        <Image
+                            src={data?.user?.personalImage ?? '/src/assets/avatar.jfif'}
+                        />
+                        <Form.Item<jobSeekerProfileFieldType> label="First Name">
+                            <Typography.Text>{data?.user?.firstName || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Last Name">
+                            <Typography.Text>{data?.user?.lastName || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Email">
+                            <Typography.Text>{data?.user?.email || '---'}</Typography.Text>
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> label="Specialization">
+                            <Typography.Text>{data?.user?.specialization || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Summary">
+                            <Typography.Text>{data?.user?.descriptionOrSummary || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Gender">
+                            <Typography.Text>{data?.user?.gender || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Phone Number">
+                            <Typography.Text>{data?.user?.phoneNumber || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Country">
+                            <Typography.Text>{data?.user?.country || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Birth Date">
+                            <Typography.Text>{data?.user?.birthDate || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Skills">
+                            <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"} isViewMode={true} />
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Education">
+                            <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"} isViewMode={true} />
+                        </Form.Item>
+
+                        <Form.Item<jobSeekerProfileFieldType> label="Work Experience">
+                            <MultipleOjectsInput1 form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"} isViewMode={true} />
+                        </Form.Item>
+
+                    </>
+                }
                 {
                     !isDisabled &&
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                        <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
-                        <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
-                        <Button danger type="primary" onClick={handleDeleteProfile}>Delete Profile</Button>
-                    </div>
+                    <>
+                        <Form.Item<jobSeekerProfileFieldType> label="Personal Image">
+                            <FileUploader setUrl={setPersonalImage} url={data?.user?.personalImage} />
+                        </Form.Item>
+                        <Upload />
+                        <Form.Item<jobSeekerProfileFieldType> name="firstName" label="First Name"
+                            rules={[{ required: true, message: 'Please Enter your First name' }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="lastName" label="Last Name"
+                            rules={[{ required: true, message: 'Please Enter your Last name' }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="email" label="Email"
+                            rules={[{ required: true, message: 'Please Enter your email' }]}
+                        >
+                            <Input type='email' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="password" label="Password"
+                            rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="Specialization" label="Specialization"
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType>
+                            name="descriptionOrSummary"
+                            label="Summary"
+                            rules={[{ required: true, message: 'Please input your Summary!' }]}
+                        >
+                            <Input.TextArea rows={4} />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> label="Gender" name={"gender"}>
+                            <Radio.Group>
+                                <Radio value="male"> Male </Radio>
+                                <Radio value="female"> Female </Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="phoneNumber" label="Phone Numbe"
+                            rules={[{ required: false, message: 'Enter a vaild phone number', min: 10, max: 10 }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="country" label="Country"
+                            rules={[{ required: false, message: 'Enter a vaild country ' }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> name="birthDate" label="Birth Date"
+                            rules={[{ validator: validateDate, }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> label="Skills">
+                            <MultipleStringsInput apiItems={data?.user?.skills} setApiItems={setSkills} placeholder={"Enter a new skill"} />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> label="Education">
+                            <MultipleOjectsInput form={form} apiItems={data?.user?.education} setApiItems={setEducation} placeholder={"education"} />
+                        </Form.Item>
+                        <Form.Item<jobSeekerProfileFieldType> label="Work Experience">
+                            <MultipleOjectsInput1 form={form} apiItems={data?.user?.workExperience} setApiItems={setWorkExperience} placeholder={"work experience"} />
+                        </Form.Item>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                            <Button onClick={handleGeneratePDF}>{"Generate CV"}</Button>
+                            <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
+                            <Button danger type="primary" onClick={handleDeleteProfile}>Delete Profile</Button>
+                        </div>
+                    </>
                 }
             </Form>
     }

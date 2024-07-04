@@ -99,6 +99,7 @@ const FileUploader: React.FC<fileUploaderProps> = ({
                 maxCount={1}
                 onChange={handleChange}
                 customRequest={handleCustomRequest}
+                showUploadList={false}
             >
                 {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </Upload>

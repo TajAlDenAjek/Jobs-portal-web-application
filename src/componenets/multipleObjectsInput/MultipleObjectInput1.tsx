@@ -8,14 +8,16 @@ interface MultipleObjectsInputProps {
     apiItems?: any
     setApiItems?: any
     placeholder?: any
-    form?: any
+    form?: any,
+    isViewMode?: boolean,
 }
 
 const MultipleOjectsInput1: React.FC<MultipleObjectsInputProps> = ({
     apiItems,
     setApiItems,
     placeholder,
-    form
+    form,
+    isViewMode = false
 }) => {
     const [items, setItems] = useState<any>(apiItems);
     const [itemTitle, setItemTitle] = useState<string>('');
@@ -55,52 +57,55 @@ const MultipleOjectsInput1: React.FC<MultipleObjectsInputProps> = ({
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {
+                    !isViewMode &&
 
-                <Space direction="vertical">
 
-                    <Form.Item
-                        name="xx"
-                        rules={[{ required: false, message: `please enter ${placeholder} field` }]}
-                    >
-                        <Input
-                            placeholder="Title"
-                            type='text'
-                            value={itemTitle}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setItemTitle(e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name="yy"
-                        rules={[{ validator: validateDate }]}
-                    >
-                        <Input
-                            placeholder="Start Date"
-                            value={itemStartDate}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setItemStartDate(e.target.value)}
-                        />
-                    </Form.Item>
+                    <Space direction="vertical">
 
-                    <Form.Item
-                        name="zz"
+                        <Form.Item
+                            name="xx"
+                            rules={[{ required: false, message: `please enter ${placeholder} field` }]}
+                        >
+                            <Input
+                                placeholder="Title"
+                                type='text'
+                                value={itemTitle}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setItemTitle(e.target.value)}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="yy"
+                            rules={[{ validator: validateDate }]}
+                        >
+                            <Input
+                                placeholder="Start Date"
+                                value={itemStartDate}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setItemStartDate(e.target.value)}
+                            />
+                        </Form.Item>
 
-                        rules={[{ validator: validateDate }]}
-                    >
+                        <Form.Item
+                            name="zz"
 
-                        <Input
-                            placeholder="End Date"
-                            value={itemEndDate}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setItemEndDate(e.target.value)}
-                        />
+                            rules={[{ validator: validateDate }]}
+                        >
 
-                    </Form.Item>
+                            <Input
+                                placeholder="End Date"
+                                value={itemEndDate}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setItemEndDate(e.target.value)}
+                            />
 
-                    <Button type="primary" onClick={handleAddItem} >add {placeholder}</Button>
-                </Space>
+                        </Form.Item>
 
+                        <Button type="primary" onClick={handleAddItem} >add {placeholder}</Button>
+                    </Space>
+                }
                 {items.map((item: any): any => (
                     <Tag
                         key={item?.title}
-                        closable
+                        closable={!isViewMode}
                         onClose={() => handleDeleteItem(item)}
                         style={{ margin: '4px' }}
                     >

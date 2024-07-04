@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useGetCompanyProfileQuery, useDeleteCompanyProfileMutation, useUpdateCompanyProfileMutation, useGetCompanyProfilesQuery } from '../../features/companyProfile/companyProfileApiSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { CompanyObjectToForm } from '../../componenets/helpers';
 import 'antd-phone-input/styles';
 import {
     Form, message, Input, Button,
-    Select, Spin
+    Select, Spin, Typography, Image
 } from 'antd'
 const { Option } = Select;
 import type { FormProps } from 'antd'
@@ -28,7 +28,7 @@ type CompanyProfileFieldType = {
     name?: string,
     phoneNumber?: string,
     Site?: string,
-    Specialization?:string,
+    Specialization?: string,
     About?: string,
     CompanyImage?: string,
 }
@@ -62,9 +62,9 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
     }
 
     const [companyImage, setCompanyImage] = useState(currentData?.comapny?.companyImage ?? '')
-    useEffect(()=>{
+    useEffect(() => {
         setCompanyImage(currentData?.comapny?.companyImage ?? '')
-    },[currentData?.company?.companyImage])
+    }, [currentData?.company?.companyImage])
     const onFinish: FormProps<CompanyProfileFieldType>['onFinish'] = async (values) => {
         try {
             const companyData = await update({
@@ -93,50 +93,83 @@ const CompanyProfileForm: React.FC<CompanyProfileProps> = ({
                 onFinish={onFinish}
 
             >
-                <Form.Item<CompanyProfileFieldType> label="Company Logo">
-                    <FileUploader setUrl={setCompanyImage} url={data?.company?.companyImage} />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="name" label="Company Name"
-                    rules={[{ required: true, message: 'Please Enter your comapny name with at least 3 chars', min: 3 }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="email" label="Email"
-                    rules={[{ required: true, message: 'Please Enter your email' }]}
-                >
-                    <Input type='email' />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="password" label="Password"
-                    rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="Specialization" label="Specialization"
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="Site" label="Site"
-                >
-                    <Input type='text' />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType>
-                    name="About"
-                    label="About"
-                >
-                    <Input.TextArea rows={4} />
-                </Form.Item>
-                <Form.Item<CompanyProfileFieldType> name="phoneNumber" label="Phone Number"
-                    rules={[{ required: false, message: 'Enter a vaild phone number', min: 10, max: 10 }]}
-                >
-                    <Input type='text' />
-                </Form.Item>
+                {
+                    isDisabled && <>
+                        <Image
+                            src={data?.company?.companyImage ?? '/src/assets/avatar.jfif'}
+                        />
 
+                        <Form.Item<CompanyProfileFieldType> label="Company Name">
+                            <Typography.Text>{data?.company?.name || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<CompanyProfileFieldType> label="Email">
+                            <Typography.Text>{data?.company?.email || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<CompanyProfileFieldType> label="Specialization">
+                            <Typography.Text>{data?.company?.specialization || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<CompanyProfileFieldType> label="Site">
+                            <Typography.Text>{data?.company?.site || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<CompanyProfileFieldType> label="About">
+                            <Typography.Text>{data?.company?.about || '---'}</Typography.Text>
+                        </Form.Item>
+
+                        <Form.Item<CompanyProfileFieldType> label="Phone Number">
+                            <Typography.Text>{data?.company?.phoneNumber || '---'}</Typography.Text>
+                        </Form.Item>
+                    </>
+                }
                 {
                     !isDisabled &&
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                        <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
-                        <Button danger type="primary" onClick={handleDeleteProfile}>Delete Account</Button>
-                    </div>
+                    <>
+                        <Form.Item<CompanyProfileFieldType> label="Company Logo">
+                            <FileUploader setUrl={setCompanyImage} url={data?.company?.companyImage} />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType> name="name" label="Company Name"
+                            rules={[{ required: true, message: 'Please Enter your comapny name with at least 3 chars', min: 3 }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType> name="email" label="Email"
+                            rules={[{ required: true, message: 'Please Enter your email' }]}
+                        >
+                            <Input type='email' />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType> name="password" label="Password"
+                            rules={[{ required: true, message: 'Password should be 8-20 chars ', min: 8, max: 20 }]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType> name="Specialization" label="Specialization"
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType> name="Site" label="Site"
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType>
+                            name="About"
+                            label="About"
+                        >
+                            <Input.TextArea rows={4} />
+                        </Form.Item>
+                        <Form.Item<CompanyProfileFieldType> name="phoneNumber" label="Phone Number"
+                            rules={[{ required: false, message: 'Enter a vaild phone number', min: 10, max: 10 }]}
+                        >
+                            <Input type='text' />
+                        </Form.Item>
+
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                            <Button type='primary' htmlType='submit' disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
+                            <Button danger type="primary" onClick={handleDeleteProfile}>Delete Account</Button>
+                        </div>
+                    </>
                 }
             </Form>
     }
