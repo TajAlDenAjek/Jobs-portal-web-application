@@ -71,7 +71,7 @@ export const JobApiSlice = apiSlice.injectEndpoints({
         deleteJOb: builder.mutation({
             query: id => {
                 return {
-                    url: `/auth/company/job/deleteJob/${id}`,
+                    url: `/auth/company/job/job/job/company/delete/${id}`,
                     method: 'DELETE',
                 };
             },
