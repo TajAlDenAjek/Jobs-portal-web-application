@@ -3,16 +3,14 @@ import AdminTable from '../../componenets/adminTable/AdminTable'
 import type { TableProps } from 'antd';
 import { Space, Table, Tag } from 'antd';
 import { Spin, Empty } from 'antd'
-import { useGetProfilesQuery } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
 import CompanyProfile from '../companyProfile/CompanyProfile';
-import { useDeleteProfileMutation,useUpdateProfileMutation } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
 import { Modal, Button, message } from 'antd'
-
+import { useGetCompaniesQuery,useApproveCompanyMutation,useDeleteCompanyMutation } from '../../features/admin/adminApiSlice';
 const CompanyTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentProfile, setCurrentProfile] = useState<any>(null)
-  const [deleteRecord, { }] = useDeleteProfileMutation()
-  const [update, {  }] = useUpdateProfileMutation()
+  const [deleteRecord, { }] = useDeleteCompanyMutation()
+  const [update, {  }] = useApproveCompanyMutation()
   const handleDelete = async (id: any) => {
     try {
       await deleteRecord(id).unwrap()
@@ -40,7 +38,7 @@ const CompanyTable = () => {
     isSuccess,
     isError,
     error
-  } = useGetProfilesQuery({})
+  } = useGetCompaniesQuery({})
   const columns: TableProps['columns'] = [
     {
       title: 'Company Name',
