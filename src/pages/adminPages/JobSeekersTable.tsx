@@ -3,15 +3,13 @@ import AdminTable from '../../componenets/adminTable/AdminTable'
 import type { TableProps } from 'antd';
 import { Space, Table, Tag } from 'antd';
 import { Spin, Empty } from 'antd'
-import { useGetProfilesQuery } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
 import JobSeekerProfile from '../jobSeekerProfile/JobSeekerProfile';
-import { useDeleteProfileMutation } from '../../features/jobSeekerProfile/jobSeekerApiSlice';
 import { Modal, Button, message } from 'antd'
-
+import { useGetUsersQuery,useDeleteUserMutation } from '../../features/admin/adminApiSlice';
 const JobSeekersTable = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [currentProfile, setCurrentProfile] = useState<any>(null)
-    const [deleteRecord, { }] = useDeleteProfileMutation()
+    const [deleteRecord, { }] = useDeleteUserMutation()
 
     const handleDelete = async (id: any) => {
         try {
@@ -28,7 +26,7 @@ const JobSeekersTable = () => {
         isSuccess,
         isError,
         error
-    } = useGetProfilesQuery({})
+    } = useGetUsersQuery({})
     const columns: TableProps['columns'] = [
         {
             title: 'First Name',
